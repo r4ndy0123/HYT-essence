@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
+
+<title>HYT — Colección</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500&family=Tenor+Sans&display=swap" rel="stylesheet">
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+}
+
+:root{
+--negro:#0a0a09;
+--blanco:#ffffff;
+--fondo:#f4f2ed;
+--gris:#8f8f8f;
+
+--serif:'Cormorant Garamond',serif;
+--sans:'Tenor Sans',sans-serif;
+}
+
+body{
+background:
+linear-gradient(
+180deg,
+#f4f2ed 0%,
+#ece8e1 100%
+);
+
+padding:60px;
+
+font-family:var(--sans);
+
+color:var(--negro);
+}
+
+/* ENCABEZADO */
+
+.header{
+display:flex;
+justify-content:space-between;
+align-items:center;
+
+margin-bottom:60px;
+}
+
+.logo{
+
+font-family:var(--serif);
+
+font-size:32px;
+
+letter-spacing:.35em;
+
+}
+
+.volver{
+
+text-decoration:none;
+
+padding:14px 28px;
+
+border:1px solid rgba(0,0,0,.15);
+
+border-radius:50px;
+
+color:black;
+
+font-size:11px;
+
+letter-spacing:.2em;
+
+text-transform:uppercase;
+
+transition:.35s;
+}
+
+.volver:hover{
+
+background:black;
+
+color:white;
+
+transform:translateY(-3px);
+
+}
+
+/* TITULO */
+
+.titulo{
+
+text-align:center;
+
+margin-bottom:60px;
+
+}
+
+.titulo span{
+
+font-size:11px;
+
+letter-spacing:.35em;
+
+text-transform:uppercase;
+
+color:var(--gris);
+
+display:block;
+
+margin-bottom:15px;
+
+}
+
+.titulo h1{
+
+font-family:var(--serif);
+
+font-size:72px;
+
+font-weight:300;
+
+letter-spacing:.05em;
+
+}
+
+/* TABLA */
+
+.catalogo-wrap{
+
+background:white;
+
+padding:30px;
+
+border-radius:25px;
+
+box-shadow:
+0 20px 60px rgba(0,0,0,.08);
+
+overflow:hidden;
+
+}
+
+.catalogo{
+
+width:100%;
+
+border-collapse:separate;
+
+border-spacing:0 18px;
+
+}
+
+.catalogo th{
+
+font-size:11px;
+
+letter-spacing:.25em;
+
+text-transform:uppercase;
+
+color:var(--gris);
+
+padding:20px;
+
+}
+
+.catalogo td{
+
+background:white;
+
+padding:20px;
+
+text-align:center;
+
+font-size:14px;
+
+}
+
+.catalogo tr{
+
+transition:.4s;
+
+}
+
+.catalogo tbody tr:hover{
+
+transform:translateY(-6px);
+
+}
+
+.catalogo img{
+
+width:130px;
+
+height:160px;
+
+object-fit:cover;
+
+border-radius:18px;
+
+box-shadow:
+
+0 12px 30px rgba(0,0,0,.12);
+
+transition:.35s;
+
+}
+
+.catalogo tbody tr:hover img{
+
+transform:scale(1.05);
+
+}
+
+/* NOMBRE */
+
+.modelo{
+
+font-family:var(--serif);
+
+font-size:26px;
+
+}
+
+/* PRECIO */
+
+.precio{
+
+font-size:18px;
+
+font-weight:600;
+
+}
+
+/* ESTADO */
+
+.estado{
+
+display:inline-block;
+
+padding:10px 18px;
+
+border-radius:50px;
+
+background:#eef8ef;
+
+color:#2c7a3f;
+
+font-size:11px;
+
+letter-spacing:.2em;
+
+text-transform:uppercase;
+
+}
+
+/* RESPONSIVE */
+
+@media(max-width:900px){
+
+body{
+padding:25px;
+}
+
+.header{
+
+flex-direction:column;
+
+gap:20px;
+
+}
+
+.titulo h1{
+font-size:48px;
+}
+
+.catalogo-wrap{
+
+overflow:auto;
+
+}
+
+.catalogo{
+
+min-width:850px;
+
+}
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="header">
+
+<div class="logo">
+HYT ESSENCE
+</div>
+
+<a href="hyt-v2.html"
+class="volver">
+
+← Volver
+
+</a>
+
+</div>
+
+<div class="titulo">
+
+<span>Colección oficial</span>
+
+<h1>Catálogo HYT</h1>
+
+</div>
+
+<div class="catalogo-wrap">
+
+<table class="catalogo">
+
+<thead>
+
+<tr>
+
+<th>Imagen</th>
+
+<th>Modelo</th>
+
+<th>Tallas</th>
+
+<th>Precio</th>
+
+<th>Estado</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+
+<tr>
+
+<td>
+<img src="img/playera1.jpeg">
+</td>
+
+<td class="modelo">
+Core Tee
+</td>
+
+<td>
+S · M · L · XL
+</td>
+
+<td class="precio">
+$280 MXN
+</td>
+
+<td>
+<span class="estado">
+Disponible
+</span>
+</td>
+
+</tr>
+
+<tr>
+
+<td>
+<img src="img/playera2.jpeg">
+</td>
+
+<td class="modelo">
+Minimal
+</td>
+
+<td>
+S · M · L · XL
+</td>
+
+<td class="precio">
+$280 MXN
+</td>
+
+<td>
+<span class="estado">
+Disponible
+</span>
+</td>
+
+</tr>
+
+<tr>
+
+<td>
+<img src="img/playera3.jpeg">
+</td>
+
+<td class="modelo">
+Signature
+</td>
+
+<td>
+S · M · L · XL
+</td>
+
+<td class="precio">
+$280 MXN
+</td>
+
+<td>
+<span class="estado">
+Disponible
+</span>
+</td>
+
+</tr>
+
+<tr>
+
+<td>
+<img src="img/playera4.jpeg">
+</td>
+
+<td class="modelo">
+HYT Black
+</td>
+
+<td>
+S · M · L · XL
+</td>
+
+<td class="precio">
+$300 MXN
+</td>
+
+<td>
+<span class="estado">
+Disponible
+</span>
+</td>
+
+</tr>
+
+<tr>
+
+<td>
+<img src="img/playera5.jpeg">
+</td>
+
+<td class="modelo">
+Classic White
+</td>
+
+<td>
+S · M · L · XL
+</td>
+
+<td class="precio">
+$300 MXN
+</td>
+
+<td>
+<span class="estado">
+Disponible
+</span>
+</td>
+
+</tr>
+
+<tr>
+
+<td>
+<img src="img/playera6.jpeg">
+</td>
+
+<td class="modelo">
+Urban
+</td>
+
+<td>
+S · M · L · XL
+</td>
+
+<td class="precio">
+$320 MXN
+</td>
+
+<td>
+<span class="estado">
+Disponible
+</span>
+</td>
+
+</tr>
+
+</tbody>
+
+</table>
+
+</div>
+
+</body>
+</html>

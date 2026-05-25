@@ -1,0 +1,988 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HYT ESSENCE — Ropa</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Tenor+Sans&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+
+:root{
+  --ink:#0a0a09;
+  --paper:#f4f2ed;
+  --white:#ffffff;
+  --off:#e8e5de;
+  --muted:rgba(10,10,9,0.38);
+  --serif:'Cormorant Garamond',serif;
+  --sans:'Tenor Sans',sans-serif;
+}
+
+html{scroll-behavior:smooth;}
+body{background:var(--ink);color:var(--white);font-family:var(--sans);overflow-x:hidden;cursor:none;}
+
+/* Cursor */
+.cur{width:8px;height:8px;border-radius:50%;background:var(--white);position:fixed;top:0;left:0;pointer-events:none;z-index:9999;mix-blend-mode:difference;transition:transform .1s;}
+.cur-r{width:32px;height:32px;border:1px solid rgba(255,255,255,.45);border-radius:50%;position:fixed;top:0;left:0;pointer-events:none;z-index:9998;transition:transform .3s ease;}
+
+/* NAV dark */
+.nav{
+  position:fixed;top:0;left:0;right:0;z-index:200;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:32px 52px;
+  mix-blend-mode:difference;
+}
+.nav-logo{
+  font-family:var(--serif);
+  font-size:26px;
+  font-weight:400;
+  letter-spacing:.35em;
+  color:var(--white);
+  text-decoration:none;
+}
+.nav-brand{
+display:flex;
+flex-direction:column;
+align-items:flex-start;
+}
+
+.nav-credit{
+
+margin-top:2px;
+
+font-size:9px;
+
+letter-spacing:.20em;
+
+text-transform:uppercase;
+
+color:rgba(255,255,255,.38);
+
+font-family:var(--sans);
+
+}
+.nav-right{display:flex;align-items:center;gap:40px;}
+.nav-links{display:flex;gap:36px;list-style:none;}
+.nav-links a{
+  font-size:10px;letter-spacing:.22em;text-transform:uppercase;
+  color:var(--white);text-decoration:none;opacity:.55;transition:opacity .3s;
+}
+.nav-links a:hover{opacity:1;}
+.nav-menu{
+  display:flex;flex-direction:column;gap:5px;cursor:none;
+}
+.nav-menu span{width:22px;height:1px;background:var(--white);display:block;}
+
+/* ============= HERO (dark) ============= */
+.hero{
+  position:relative;min-height:100vh;
+  display:grid;grid-template-rows:1fr auto;
+  overflow:hidden;
+  background:var(--ink);
+}
+
+/* Grain overlay */
+.hero::after{
+  content:'';position:absolute;inset:0;z-index:1;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+  opacity:.045;pointer-events:none;
+}
+
+/* Fake cinematic dark photo bg */
+.hero-photo{
+  position:absolute;inset:0;z-index:0;
+  background:
+    radial-gradient(ellipse 55% 80% at 55% 40%, rgba(30,28,25,.2) 0%, transparent 60%),
+    radial-gradient(ellipse 100% 100% at 50% 50%, #1a1714 0%, #080807 70%);
+  overflow:hidden;
+}
+/* Simulated silhouette using CSS */
+.silhouette{
+  position:absolute;
+  left:50%;top:0;
+  transform:translateX(-30%);
+  width:52%;height:100%;
+  background:radial-gradient(ellipse 60% 90% at 50% 35%, rgba(60,52,44,.55) 0%, transparent 65%),
+             radial-gradient(ellipse 30% 50% at 50% 70%, rgba(40,35,30,.4) 0%, transparent 70%);
+}
+
+.hero-content{
+  position:relative;z-index:2;
+  display:flex;flex-direction:column;
+  justify-content:flex-end;
+  padding:0 52px 60px;
+  min-height:100vh;
+}
+.hero-quote{
+  position:absolute;left:52px;top:50%;transform:translateY(-50%);
+  max-width:200px;
+}
+.hero-quote p{
+  font-family:var(--serif);
+  font-style:italic;
+  font-size:13px;
+  line-height:1.7;
+  color:rgba(255,255,255,.5);
+  letter-spacing:.02em;
+  margin-bottom:12px;
+}
+.hero-quote cite{
+  font-size:9px;letter-spacing:.22em;text-transform:uppercase;
+  color:rgba(255,255,255,.25);font-style:normal;
+}
+.hero-headline{
+  position:absolute;right:52px;top:50%;transform:translateY(-70%);
+  text-align:right;
+}
+.hero-headline h1{
+  font-family:var(--serif);
+  font-size:clamp(28px,4vw,52px);
+  font-weight:300;
+  letter-spacing:.12em;
+  line-height:1.15;
+  text-transform:uppercase;
+  margin-bottom:28px;
+}
+.hero-btn{
+  display:inline-block;
+  border:1px solid rgba(255,255,255,.5);
+  border-radius:999px;
+  padding:13px 36px;
+  font-size:9px;letter-spacing:.25em;text-transform:uppercase;
+  color:var(--white);text-decoration:none;
+  transition:background .3s,border-color .3s;
+}
+.hero-btn:hover{background:var(--white);color:var(--ink);}
+
+.hero-footer{
+  position:relative;z-index:2;
+  display:flex;justify-content:space-between;align-items:center;
+  padding:28px 52px;
+  border-top:1px solid rgba(255,255,255,.1);
+}
+.hero-stat{
+  font-size:9px;letter-spacing:.25em;text-transform:uppercase;
+  color:rgba(255,255,255,.4);
+}
+
+/* ============= SECTION WHITE (colección) ============= */
+.section-white{
+  background:var(--paper);
+  color:var(--ink);
+  padding:72px 52px 96px;
+}
+.sw-header{
+  display:flex;align-items:center;justify-content:space-between;
+  margin-bottom:52px;
+}
+.sw-logo{
+  font-family:var(--serif);
+  font-size:22px;font-weight:400;letter-spacing:.35em;
+  color:var(--ink);text-decoration:none;
+}
+.sw-menu{display:flex;flex-direction:column;gap:5px;}
+.sw-menu span{width:22px;height:1px;background:var(--ink);display:block;}
+
+.sw-section-label{
+  text-align:center;
+  font-size:9px;letter-spacing:.3em;text-transform:uppercase;
+  color:var(--muted);margin-bottom:40px;
+  display:flex;align-items:center;justify-content:center;gap:20px;
+}
+.sw-section-label::before,
+.sw-section-label::after{content:'';flex:0 0 40px;height:1px;background:var(--muted);}
+
+/* Pill cards */
+.pill-wrapper{
+    position:relative;
+    overflow:hidden;
+}
+
+.pill-grid{
+    display:flex;
+    gap:30px;
+
+    overflow-x:auto;
+
+    scroll-behavior:smooth;
+
+    scrollbar-width:none;
+}
+
+.pill-grid::-webkit-scrollbar{
+    display:none;
+}
+
+.arrow{
+    position:absolute;
+
+    top:50%;
+
+    transform:translateY(-50%);
+
+    width:55px;
+    height:55px;
+
+    border:none;
+
+    border-radius:50%;
+
+    background:#0a0a09;
+
+    color:white;
+
+    font-size:22px;
+
+    z-index:100;
+
+    cursor:pointer;
+}
+
+.arrow-left{
+    left:10px;
+}
+
+.arrow-right{
+    right:10px;
+}
+.pill{
+  flex:0 0 auto;
+  width:260px;
+  height:320px;
+
+  border-radius:12px;
+
+  overflow:hidden;
+  position:relative;
+
+  background:var(--ink);
+
+  transition:transform .5s cubic-bezier(.22,1,.36,1);
+  cursor:none;
+}
+
+.pill:hover{transform:translateY(-12px) scale(1.03);}
+.pill-side{
+  flex:0 0 100px;
+  border-radius:999px;
+  overflow:hidden;
+  position:relative;
+  aspect-ratio:2/3;
+  background:var(--ink);
+  opacity:.5;
+  filter:blur(1px);
+}
+/* Pill inner bg — simulated dark fashion photo */
+.pill-bg{
+  position:absolute;inset:0;
+  display:flex;align-items:flex-end;
+}
+.pill:nth-child(1) .pill-inner-bg{background:radial-gradient(ellipse 80% 80% at 50% 30%, #2a2520 0%, #0d0c0b 80%);}
+.pill:nth-child(2) .pill-inner-bg{background:radial-gradient(ellipse 80% 80% at 50% 30%, #1e2228 0%, #080a0d 80%);}
+.pill:nth-child(3) .pill-inner-bg{background:radial-gradient(ellipse 80% 80% at 50% 30%, #21201a 0%, #0c0b09 80%);}
+.pill-inner-bg{position:absolute;inset:0;}
+.pill-img{
+  position:absolute;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  z-index:1;
+}
+
+.pill-label{
+  position:absolute;
+  bottom:32px;
+  left:28px;
+  z-index:5;
+}
+
+.pill-hover{
+  z-index:6;
+}
+/* Grain on pill */
+.pill-grain{
+  position:absolute;inset:0;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+  opacity:.06;pointer-events:none;
+}
+/* Pill silhouette */
+.pill-figure{
+  position:absolute;inset:0;
+  display:flex;align-items:center;justify-content:center;
+}
+.pill-fig-shape{
+  width:55%;height:70%;
+  background:radial-gradient(ellipse 70% 100% at 50% 40%, rgba(80,70,60,.6) 0%, transparent 70%),
+             radial-gradient(ellipse 40% 60% at 50% 75%, rgba(50,45,40,.4) 0%, transparent 70%);
+  border-radius:50%;
+}
+/* Pill label */
+.pill-label{
+  position:absolute;bottom:32px;left:28px;z-index:3;
+}
+.pill-tag{
+  font-size:9px;letter-spacing:.22em;text-transform:uppercase;
+  color:rgba(255,255,255,.4);display:block;margin-bottom:4px;
+}
+.pill-name{
+  font-family:var(--serif);
+  font-size:22px;font-weight:300;letter-spacing:.08em;
+  color:var(--white);display:block;
+}
+.pill-price{
+  font-size:10px;letter-spacing:.15em;
+  color:rgba(255,255,255,.4);display:block;margin-top:2px;
+}
+/* Hover overlay */
+.pill-hover{
+  position:absolute;inset:0;z-index:4;
+  background:rgba(10,10,9,.7);
+  display:flex;align-items:center;justify-content:center;
+  opacity:0;transition:opacity .4s;
+}
+.pill:hover .pill-hover{opacity:1;}
+.pill-hover-text{
+  font-family:var(--serif);
+  font-size:15px;letter-spacing:.2em;
+  font-style:italic;color:var(--white);
+}
+
+/* Side partial pills */
+.pill-side-left,.pill-side-right{
+  width:90px;
+  border-radius:999px;overflow:hidden;
+  aspect-ratio:2/3;flex-shrink:0;
+  position:relative;
+}
+.pill-side-left{align-self:center;opacity:.35;filter:blur(1px);}
+.pill-side-right{align-self:center;opacity:.35;filter:blur(1px);}
+.pill-side-bg{position:absolute;inset:0;background:var(--ink);}
+.pill-side-left .pill-side-bg{background:radial-gradient(ellipse 80% 80% at 50% 30%, #251e1a 0%, #0d0c0b 80%);}
+.pill-side-right .pill-side-bg{background:radial-gradient(ellipse 80% 80% at 50% 30%, #1c1e25 0%, #0a0b0d 80%);}
+
+/* ============= SECTION DARK (nosotros) ============= */
+.section-dark{
+  background:var(--ink);
+  color:var(--white);
+  padding:100px 52px;
+  border-top:1px solid rgba(255,255,255,.07);
+}
+.about-wrap{
+  display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center;
+}
+.about-left{}
+.about-eyebrow{
+  font-size:9px;letter-spacing:.3em;text-transform:uppercase;
+  color:rgba(255,255,255,.35);margin-bottom:24px;display:block;
+}
+.about-title{
+  font-family:var(--serif);
+  font-size:clamp(48px,7vw,88px);
+  font-weight:300;line-height:.95;letter-spacing:.02em;
+  margin-bottom:0;
+}
+.about-title em{font-style:italic;display:block;}
+.about-right{}
+.about-body{
+  font-size:14px;line-height:1.9;
+  color:rgba(255,255,255,.5);margin-bottom:32px;
+}
+.about-stats{
+  display:grid;grid-template-columns:1fr 1fr;gap:32px;
+  border-top:1px solid rgba(255,255,255,.08);padding-top:40px;
+}
+.stat-n{
+  font-family:var(--serif);
+  font-size:52px;font-weight:300;
+  color:var(--white);line-height:1;display:block;
+}
+.stat-l{
+  font-size:9px;letter-spacing:.22em;text-transform:uppercase;
+  color:rgba(255,255,255,.3);margin-top:4px;display:block;
+}
+
+/* ============= CONTACT (white) ============= */
+.section-contact{
+  background:var(--paper);color:var(--ink);
+  padding:100px 52px;
+}
+.contact-top{
+  display:flex;align-items:flex-end;justify-content:space-between;
+  margin-bottom:72px;
+}
+.contact-title{
+  font-family:var(--serif);
+  font-size:clamp(52px,8vw,100px);
+  font-weight:300;line-height:.9;letter-spacing:.02em;
+}
+.contact-title em{font-style:italic;}
+.contact-subtitle{
+  max-width:240px;
+  font-size:13px;line-height:1.8;
+  color:var(--muted);text-align:right;
+}
+.contact-grid{
+  display:grid;grid-template-columns:1fr 1fr;gap:80px;
+}
+.contact-details{display:flex;flex-direction:column;gap:36px;}
+.cd-item{}
+.cd-label{
+  font-size:9px;letter-spacing:.25em;text-transform:uppercase;
+  color:var(--muted);display:block;margin-bottom:6px;
+}
+.cd-val{
+  font-family:var(--serif);font-size:20px;font-weight:300;
+  color:var(--ink);
+}
+.cd-val a{color:var(--ink);text-decoration:none;border-bottom:1px solid rgba(10,10,9,.2);transition:border-color .3s;}
+.cd-val a:hover{border-color:var(--ink);}
+
+/* Socials pill row */
+.socials-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px;}
+.soc-pill{
+  border:1px solid rgba(10,10,9,.2);
+  border-radius:999px;
+  padding:10px 24px;
+  font-size:9px;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--ink);text-decoration:none;
+  transition:background .3s,color .3s,border-color .3s;
+}
+.soc-pill:hover{background:var(--ink);color:var(--white);border-color:var(--ink);}
+
+/* Form */
+.cf{display:flex;flex-direction:column;gap:0;}
+.cf-group{border-bottom:1px solid rgba(10,10,9,.15);padding:0 0 4px;}
+.cf-group label{
+  font-size:9px;letter-spacing:.22em;text-transform:uppercase;
+  color:var(--muted);display:block;padding:20px 0 6px;
+}
+.cf-group input,.cf-group textarea{
+  width:100%;background:transparent;border:none;outline:none;
+  font-family:var(--serif);font-size:18px;font-weight:300;
+  color:var(--ink);padding:0 0 16px;resize:none;
+}
+.cf-group textarea{min-height:72px;}
+.cf-group input::placeholder,.cf-group textarea::placeholder{color:rgba(10,10,9,.25);}
+.cf-submit{
+  margin-top:40px;align-self:flex-start;
+  border:1px solid rgba(10,10,9,.25);border-radius:999px;
+  padding:16px 48px;
+  font-size:9px;letter-spacing:.25em;text-transform:uppercase;
+  color:var(--ink);background:transparent;cursor:none;
+  transition:background .3s,color .3s,border-color .3s;
+}
+.cf-submit:hover{background:var(--ink);color:var(--white);border-color:var(--ink);}
+
+/* FOOTER */
+footer{
+  background:var(--ink);color:var(--white);
+  border-top:1px solid rgba(255,255,255,.07);
+  padding:40px 52px;
+  display:flex;align-items:center;justify-content:space-between;
+}
+.f-logo{
+  font-family:var(--serif);font-size:20px;font-weight:300;letter-spacing:.35em;
+}
+.f-text{font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:rgba(255,255,255,.28);}
+
+/* Scroll reveal */
+.reveal{opacity:0;transform:translateY(32px);transition:opacity .9s ease,transform .9s ease;}
+.reveal.in{opacity:1;transform:translateY(0);}
+
+/* Mobile */
+@media(max-width:768px){
+  .nav,.section-white,.section-dark,.section-contact,footer{padding-left:24px;padding-right:24px;}
+  .hero-content{padding:0 24px 52px;}
+  .hero-quote{left:24px;max-width:160px;}
+  .hero-headline{right:24px;}
+  .hero-footer{padding:20px 24px;}
+  .pill-grid{gap:10px;}
+  .pill{width:140px;}
+  .pill-side-left,.pill-side-right{width:60px;}
+  .about-wrap,.contact-grid{grid-template-columns:1fr;gap:48px;}
+  .contact-top{flex-direction:column;align-items:flex-start;gap:24px;}
+  .contact-subtitle{text-align:left;}
+  body{cursor:auto;}
+  .cur,.cur-r{display:none;}
+}
+</style>
+</head>
+<body>
+
+<div class="cur" id="c"></div>
+<div class="cur-r" id="cr"></div>
+
+<!-- NAV -->
+<nav class="nav">
+  <div class="nav-brand">
+
+<a href="#" class="nav-logo">
+HYT ESSENCE
+</a>
+
+<span class="nav-credit">
+by Dezailly Sanchez • Marco Miranda
+</span>
+
+</div>
+  <div class="nav-right">
+    <ul class="nav-links">
+      <li><a href="coleccion.html">Colección</a></li>
+      <li><a href="#nosotros">Nosotros</a></li>
+      <li><a href="#contacto">Contacto</a></li>
+    </ul>
+    <div class="nav-menu"><span></span><span></span><span></span></div>
+  </div>
+</nav>
+
+<!-- ===== HERO DARK ===== -->
+<section class="hero">
+  <div class="hero-photo"><div class="silhouette"></div></div>
+
+  <div class="hero-content">
+    <div class="hero-quote">
+      <p>"La ropa que usas es la primera impresión que das sin decir una sola palabra."</p>
+      <cite>— HYT ESSENCE —</cite>
+    </div>
+    <div class="hero-headline">
+      <h1>Define tu<br>propio<br>lenguaje</h1>
+      <a href="#coleccion" class="hero-btn">Ver Colección</a>
+    </div>
+  </div>
+
+  <div class="hero-footer">
+    <span class="hero-stat">Diseño Propio</span>
+    <span class="hero-stat">Envíos a Todo México</span>
+    <span class="hero-stat">Calidad Premium</span>
+  </div>
+</section>
+
+<!-- ===== COLECCIÓN BLANCA ===== -->
+<section class="section-white" id="coleccion">
+
+  <div class="sw-header reveal">
+    <a href="#" class="sw-logo">HYT ESSENCE</a>
+
+    <div class="sw-menu">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+  </div>
+
+  <div class="sw-section-label reveal">
+    Colección Actual
+  </div>
+
+  <div class="pill-wrapper reveal">
+
+    <button class="arrow arrow-left"
+      onclick="scrollLeftBtn()">
+      ❮
+    </button>
+
+    <div class="pill-grid" id="slider">
+
+      <!-- PLAYERA 1 -->
+      <div class="pill">
+
+        <img src="img/playera1.jpeg"
+        class="pill-img">
+
+        <div class="pill-grain"></div>
+
+        <div class="pill-label">
+          <span class="pill-tag">01</span>
+
+          <span class="pill-name">
+            Core Tee
+          </span>
+
+          <span class="pill-price">
+            MXN $280
+          </span>
+        </div>
+
+        <div class="pill-hover">
+          <span class="pill-hover-text">
+            Ver pieza
+          </span>
+        </div>
+
+      </div>
+
+      <!-- PLAYERA 2 -->
+      <div class="pill">
+
+        <img src="img/playera2.jpeg"
+        class="pill-img">
+
+        <div class="pill-grain"></div>
+
+        <div class="pill-label">
+          <span class="pill-tag">02</span>
+
+          <span class="pill-name">
+            Minimal
+          </span>
+
+          <span class="pill-price">
+            MXN $280
+          </span>
+        </div>
+
+        <div class="pill-hover">
+          <span class="pill-hover-text">
+            Ver pieza
+          </span>
+        </div>
+
+      </div>
+
+      <!-- PLAYERA 3 -->
+      <div class="pill">
+
+        <img src="img/playera3.jpeg"
+        class="pill-img">
+
+        <div class="pill-grain"></div>
+
+        <div class="pill-label">
+          <span class="pill-tag">03</span>
+
+          <span class="pill-name">
+            Signature
+          </span>
+
+          <span class="pill-price">
+            MXN $280
+          </span>
+        </div>
+
+        <div class="pill-hover">
+          <span class="pill-hover-text">
+            Ver pieza
+          </span>
+        </div>
+
+      </div>
+
+      <!-- PLAYERA 4 -->
+      <div class="pill">
+
+        <img src="img/playera4.jpeg"
+        class="pill-img">
+
+        <div class="pill-label">
+          <span class="pill-tag">04</span>
+
+          <span class="pill-name">
+            Urban
+          </span>
+
+          <span class="pill-price">
+            MXN $280
+          </span>
+        </div>
+
+      </div>
+
+      <!-- PLAYERA 5 -->
+      <div class="pill">
+
+        <img src="img/playera5.jpeg"
+        class="pill-img">
+
+        <div class="pill-label">
+          <span class="pill-tag">05</span>
+
+          <span class="pill-name">
+            Shadow
+          </span>
+
+          <span class="pill-price">
+            MXN $280
+          </span>
+        </div>
+
+      </div>
+
+      <!-- PLAYERA 6 -->
+      <div class="pill">
+
+        <img src="img/playera6.jpeg"
+        class="pill-img">
+
+        <div class="pill-label">
+          <span class="pill-tag">06</span>
+
+          <span class="pill-name">
+            Black
+          </span>
+
+          <span class="pill-price">
+            MXN $280
+          </span>
+        </div>
+
+      </div>
+
+      <!-- PLAYERA 7 -->
+      <div class="pill">
+
+        <img src="img/playera7.jpeg"
+        class="pill-img">
+
+        <div class="pill-label">
+          <span class="pill-tag">07</span>
+
+          <span class="pill-name">
+            Classic
+          </span>
+
+          <span class="pill-price">
+            MXN $280
+          </span>
+        </div>
+
+      </div>
+
+      <!-- PLAYERA 8 -->
+      <div class="pill">
+
+        <img src="img/playera8.jpeg"
+        class="pill-img">
+
+        <div class="pill-label">
+          <span class="pill-tag">08</span>
+
+          <span class="pill-name">
+            Street
+          </span>
+
+          <span class="pill-price">
+            MXN $280
+          </span>
+        </div>
+
+      </div>
+
+      <!-- PLAYERA 9 -->
+      <div class="pill">
+
+        <img src="img/playera9.jpeg"
+        class="pill-img">
+
+        <div class="pill-label">
+          <span class="pill-tag">09</span>
+
+          <span class="pill-name">
+            Edition
+          </span>
+
+          <span class="pill-price">
+            MXN $280
+          </span>
+        </div>
+
+      </div>
+
+    </div>
+
+    <button class="arrow arrow-right"
+      onclick="scrollRightBtn()">
+      ❯
+    </button>
+
+  </div>
+
+</section>
+
+<!-- ===== NOSOTROS DARK ===== -->
+<section class="section-dark" id="nosotros">
+  <div class="about-wrap">
+    <div class="about-left reveal">
+      <span class="about-eyebrow">Acerca de HYT ESSENCE</span>
+      <h2 class="about-title">
+        Ropa con<br>
+        <em>propósito</em>
+      </h2>
+    </div>
+    <div class="about-right reveal">
+      <p class="about-body">HYT ESSENCE nació de la necesidad de prendas que hablen por sí solas. Cada pieza es una declaración — sin ruido, sin excesos. Diseñadas para personas que entienden que el estilo real no se grita, se nota.</p>
+      <p class="about-body">Todas nuestras playeras son de diseño propio, producidas en México con materiales de primera calidad. Ediciones limitadas, porque lo exclusivo tiene peso.</p>
+      <div class="about-stats">
+        <div><span class="stat-n">100%</span><span class="stat-l">Diseño original</span></div>
+        <div><span class="stat-n">MX</span><span class="stat-l">Hecho en México</span></div>
+        <div><span class="stat-n">S–XL</span><span class="stat-l">Todas las tallas</span></div>
+        <div><span class="stat-n">72h</span><span class="stat-l">Envío rápido</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== CONTACTO BLANCO ===== -->
+<section class="section-contact" id="contacto">
+  <div class="contact-top reveal">
+    <h2 class="contact-title">Hablemos<br><em>tu pedido</em></h2>
+    <p class="contact-subtitle">Escríbenos para apartar tu pieza o resolver cualquier duda sobre la colección.</p>
+  </div>
+
+  <div class="contact-grid">
+    <div class="contact-details reveal">
+      <div class="cd-item">
+        <span class="cd-label">WhatsApp</span>
+        <p class="cd-val"><a href="https://wa.me/521XXXXXXXXXX">+52 782 131 7909</a></p>
+      </div>
+      <div class="cd-item">
+        <span class="cd-label">Correo</span>
+        <p class="cd-val"><a href="mailto:hola@hyt.mx">hola@hyt.mx</a></p>
+      </div>
+      <div class="cd-item">
+        <span class="cd-label">Envíos</span>
+        <p class="cd-val">Todo México</p>
+      </div>
+      <div class="cd-item">
+        <span class="cd-label">Redes</span>
+        <div class="socials-row">
+          <a href="#" class="soc-pill">Instagram</a>
+          <a href="#" class="soc-pill">TikTok</a>
+          <a href="#" class="soc-pill">Facebook</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="reveal">
+      <div class="cf">
+        <div class="cf-group">
+          <label>Nombre</label>
+          <input type="text" placeholder="Tu nombre">
+        </div>
+        <div class="cf-group">
+          <label>WhatsApp</label>
+          <input type="tel" placeholder="+52 1 XXX XXX XXXX">
+        </div>
+        <div class="cf-group">
+          <label>Talla</label>
+          <input type="text" placeholder="S / M / L / XL">
+        </div>
+        <div class="cf-group">
+          <label>Mensaje</label>
+          <textarea placeholder="¿Qué playera te interesa?"></textarea>
+        </div>
+        <button class="cf-submit" onclick="handleSend(this)">Enviar pedido →</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <span class="f-logo">HYT ESSENCE</span>
+  <span class="f-text">© 2025 HYT ESSENCE — Todos los derechos reservados</span>
+  <span class="f-text">Autores: Dezailly Sanchez, Marco Miranda</span>
+  <span class="f-text">México</span>
+</footer>
+
+
+<script>
+
+// Cursor
+const cur=document.getElementById('c'),cr=document.getElementById('cr');
+let mx=0,my=0,rx=0,ry=0;
+
+document.addEventListener('mousemove',e=>{
+  mx=e.clientX;
+  my=e.clientY;
+  cur.style.transform=`translate(${mx-4}px,${my-4}px)`;
+});
+
+(function anim(){
+  rx+=(mx-rx-16)*.1;
+  ry+=(my-ry-16)*.1;
+
+  cr.style.transform=`translate(${rx}px,${ry}px)`;
+
+  requestAnimationFrame(anim);
+})();
+
+// Scroll reveal
+const obs=new IntersectionObserver(entries=>{
+ entries.forEach(e=>{
+   if(e.isIntersecting)
+      e.target.classList.add('in');
+ });
+},{threshold:.12});
+
+document.querySelectorAll('.reveal')
+.forEach(el=>obs.observe(el));
+
+// Botón contacto
+function handleSend(btn){
+
+ btn.textContent='Enviado ✓';
+
+ btn.style.background='#0a0a09';
+ btn.style.color='#f4f2ed';
+
+ setTimeout(()=>{
+   btn.textContent='Enviar pedido →';
+
+   btn.style.background='';
+   btn.style.color='';
+
+ },3000);
+
+}
+
+// Scroll suave
+document.querySelectorAll('a[href^="#"]')
+.forEach(a=>{
+
+ a.addEventListener('click',e=>{
+
+ const t=document.querySelector(
+ a.getAttribute('href')
+ );
+
+ if(t){
+
+ e.preventDefault();
+
+ t.scrollIntoView({
+ behavior:'smooth'
+ });
+
+ }
+
+ });
+
+});
+
+// ===== CARRUSEL =====
+const slider=document.getElementById("slider");
+
+function moverIzquierda(){
+
+ slider.scrollBy({
+   left:-900,
+   behavior:"smooth"
+ });
+
+}
+
+function moverDerecha(){
+
+ slider.scrollBy({
+   left:900,
+   behavior:"smooth"
+ });
+
+}
+
+</script>
+
+</body>
+</html>
