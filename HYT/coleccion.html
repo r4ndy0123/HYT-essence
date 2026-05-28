@@ -438,12 +438,28 @@ function cerrarCarrito() {
 
 async function pedirWhatsApp() {
   if (carrito.length === 0) return;
+
+  // Verificar sesión — redirigir a login si no hay
+  const { data: { session } } = await db.auth.getSession();
+  if (!session) {
+    // Guardar carrito antes de redirigir
+    localStorage.setItem('hyt_carrito', JSON.stringify(carrito));
+    cerrarCarrito();
+    mostrarToast('Inicia sesión para continuar');
+    setTimeout(() => {
+      window.location.href = 'login.html?redirect=coleccion.html';
+    }, 1200);
+    return;
+  }
+
+  const nombre = session.user.user_metadata?.nombre || session.user.email.split('@')[0];
   const total = carrito.reduce((s, i) => s + i.precio * i.cantidad, 0);
   const lineas = carrito.map(i =>
     `• ${i.nombre} (Talla ${i.talla}) x${i.cantidad} — $${(i.precio * i.cantidad).toFixed(0)} MXN`
   ).join('\n');
-  const mensaje = `Hola, me interesan los siguientes productos de HYT ESSENCE:\n\n${lineas}\n\n*Total: $${total.toFixed(0)} MXN*\n\n¿Me pueden ayudar con el pedido?`;
+  const mensaje = `Hola, soy *${nombre}* y me interesan los siguientes productos de HYT ESSENCE:\n\n${lineas}\n\n*Total: $${total.toFixed(0)} MXN*\n\n¿Me pueden ayudar con el pedido?`;
   window.open(`https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(mensaje)}`, '_blank');
+
   // Descontar stock en Supabase
   for (const item of carrito) {
     const prod = todosProductos.find(p => p.id == item.id);
@@ -454,7 +470,6 @@ async function pedirWhatsApp() {
   }
   vaciarCarrito();
   cerrarCarrito();
-  // Recargar productos con stock actualizado
   await cargarProductos();
 }
 
