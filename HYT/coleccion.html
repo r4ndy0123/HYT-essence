@@ -460,6 +460,13 @@ async function pedirWhatsApp() {
   const mensaje = `Hola, soy *${nombre}* y me interesan los siguientes productos de HYT ESSENCE:\n\n${lineas}\n\n*Total: $${total.toFixed(0)} MXN*\n\n¿Me pueden ayudar con el pedido?`;
   window.open(`https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(mensaje)}`, '_blank');
 
+  // Guardar pedido en Supabase
+  await db.from('pedidos').insert({
+    usuario_id: session.user.id,
+    items: carrito.map(i => ({ nombre: i.nombre, talla: i.talla, cantidad: i.cantidad, precio: i.precio })),
+    total
+  });
+
   // Descontar stock en Supabase
   for (const item of carrito) {
     const prod = todosProductos.find(p => p.id == item.id);
