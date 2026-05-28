@@ -51,6 +51,17 @@ body { background: linear-gradient(180deg,#f4f2ed 0%,#ece8e1 100%); padding:60px
 .titulo h1 { font-family:var(--serif); font-size:72px; font-weight:300; letter-spacing:.05em; }
 
 
+
+/* AUTH */
+.auth-btn {
+  padding:10px 18px; border-radius:50px;
+  font-family:var(--sans); font-size:10px; letter-spacing:.15em;
+  text-transform:uppercase; cursor:pointer; transition:.2s; text-decoration:none;
+  border:1px solid rgba(0,0,0,.15); color:var(--negro); background:transparent;
+}
+.auth-btn:hover { background:var(--negro); color:white; }
+.auth-user { font-size:11px; letter-spacing:.1em; color:var(--gris); }
+
 /* SEARCH */
 .search-wrap { margin-bottom: 30px; }
 .search-input {
@@ -252,6 +263,7 @@ body { background: linear-gradient(180deg,#f4f2ed 0%,#ece8e1 100%); padding:60px
   <div class="logo">HYT ESSENCE</div>
   <div class="header-right">
     <a href="index.html" class="volver">← Volver</a>
+    <div id="col-auth"></div>
     <button class="carrito-btn" onclick="abrirCarrito()">
       🛒 Carrito
       <span class="carrito-count" id="carrito-count">0</span>
@@ -299,6 +311,20 @@ const SUPABASE_URL = 'https://ufzijqylddyaswijqtkp.supabase.co';
 const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVmemlqcXlsZGR5YXN3aWpxdGtwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzk2NTg0ODEsImV4cCI6MjA5NTIzNDQ4MX0.lIogAVoQ6lrV6bHTuI3qqiqBSV8khXI6PLBTIGNlfk4';
 const { createClient } = supabase;
 const db = createClient(SUPABASE_URL, SUPABASE_KEY);
+
+
+// AUTH
+async function initColAuth() {
+  const { data: { session } } = await db.auth.getSession();
+  const el = document.getElementById('col-auth');
+  if (session) {
+    const nombre = session.user.user_metadata?.nombre || session.user.email.split('@')[0];
+    el.innerHTML = `<span class="auth-user">${nombre}</span>`;
+  } else {
+    el.innerHTML = `<a href="login.html" class="auth-btn">Mi cuenta</a>`;
+  }
+}
+initColAuth();
 
 const WA_NUMBER = '5217821317909';
 

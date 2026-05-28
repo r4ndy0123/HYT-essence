@@ -752,22 +752,42 @@ async function subirImagen(input) {
   mostrarToast('Imagen subida correctamente');
 }
 
+async function verificarAdmin(user) {
+  const { data, error } = await db
+    .from('perfiles')
+    .select('rol')
+    .eq('id', user.id)
+    .single();
+  return !error && data?.rol === 'admin';
+}
+
+async function mostrarPanel(user) {
+  const esAdmin = await verificarAdmin(user);
+  if (!esAdmin) {
+    await db.auth.signOut();
+    document.getElementById('login-error').textContent = 'No tienes permisos de administrador';
+    document.getElementById('login-error').style.display = 'block';
+    return;
+  }
+  document.getElementById('login-screen').style.display = 'none';
+  document.getElementById('admin-panel').style.display = 'block';
+  document.getElementById('user-email').textContent = user.email;
+  cargarProductos();
+}
+
 async function iniciarSesion() {
   const email = document.getElementById('login-email').value;
   const password = document.getElementById('login-password').value;
   const errorEl = document.getElementById('login-error');
+  errorEl.style.display = 'none';
 
   const { data, error } = await db.auth.signInWithPassword({ email, password });
-
   if (error) {
+    errorEl.textContent = 'Correo o contraseña incorrectos';
     errorEl.style.display = 'block';
     return;
   }
-
-  document.getElementById('login-screen').style.display = 'none';
-  document.getElementById('admin-panel').style.display = 'block';
-  document.getElementById('user-email').textContent = data.user.email;
-  cargarProductos();
+  await mostrarPanel(data.user);
 }
 
 async function cerrarSesion() {
@@ -776,13 +796,8 @@ async function cerrarSesion() {
 }
 
 // Verificar sesión activa al cargar
-db.auth.getSession().then(({ data: { session } }) => {
-  if (session) {
-    document.getElementById('login-screen').style.display = 'none';
-    document.getElementById('admin-panel').style.display = 'block';
-    document.getElementById('user-email').textContent = session.user.email;
-    cargarProductos();
-  }
+db.auth.getSession().then(async ({ data: { session } }) => {
+  if (session) await mostrarPanel(session.user);
 });
 
 // PRODUCTOS

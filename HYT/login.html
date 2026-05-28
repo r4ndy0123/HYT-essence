@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HYT ESSENCE — Iniciar sesión</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500&family=Tenor+Sans&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+:root{
+  --negro:#0a0a09;--blanco:#fff;--fondo:#f4f2ed;--gris:#8f8f8f;
+  --serif:'Cormorant Garamond',serif;--sans:'Tenor Sans',sans-serif;
+  --rojo:#c0392b;
+}
+body{min-height:100vh;background:linear-gradient(135deg,#0a0a09 0%,#1a1714 100%);display:flex;align-items:center;justify-content:center;font-family:var(--sans);padding:20px;}
+
+.card{background:var(--fondo);border-radius:28px;padding:52px 48px;width:100%;max-width:420px;}
+.logo{font-family:var(--serif);font-size:24px;letter-spacing:.35em;text-align:center;margin-bottom:6px;}
+.sub{font-size:10px;letter-spacing:.25em;text-transform:uppercase;color:var(--gris);text-align:center;margin-bottom:40px;}
+
+.tabs{display:flex;border-bottom:1px solid rgba(0,0,0,.1);margin-bottom:32px;}
+.tab{flex:1;padding:12px;font-family:var(--sans);font-size:10px;letter-spacing:.2em;text-transform:uppercase;background:none;border:none;cursor:pointer;color:var(--gris);transition:.2s;border-bottom:2px solid transparent;margin-bottom:-1px;}
+.tab.active{color:var(--negro);border-bottom-color:var(--negro);}
+
+.form{display:none;flex-direction:column;gap:14px;}
+.form.active{display:flex;}
+
+.field{display:flex;flex-direction:column;gap:6px;}
+.field label{font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--gris);}
+.field input{padding:13px 16px;border:1px solid rgba(0,0,0,.12);border-radius:12px;font-family:var(--sans);font-size:14px;outline:none;transition:.2s;background:white;}
+.field input:focus{border-color:var(--negro);}
+
+.btn-submit{padding:16px;background:var(--negro);color:white;border:none;border-radius:50px;font-family:var(--sans);font-size:11px;letter-spacing:.2em;text-transform:uppercase;cursor:pointer;transition:.3s;margin-top:8px;}
+.btn-submit:hover{opacity:.85;}
+.btn-submit:disabled{opacity:.5;cursor:not-allowed;}
+
+.divider{display:flex;align-items:center;gap:12px;margin:4px 0;}
+.divider span{font-size:10px;letter-spacing:.15em;text-transform:uppercase;color:var(--gris);white-space:nowrap;}
+.divider::before,.divider::after{content:'';flex:1;height:1px;background:rgba(0,0,0,.1);}
+
+.btn-google{padding:14px;background:white;color:var(--negro);border:1px solid rgba(0,0,0,.12);border-radius:50px;font-family:var(--sans);font-size:11px;letter-spacing:.15em;text-transform:uppercase;cursor:pointer;transition:.3s;display:flex;align-items:center;justify-content:center;gap:10px;}
+.btn-google:hover{border-color:var(--negro);}
+.btn-google svg{flex-shrink:0;}
+
+.msg{font-size:12px;padding:12px 16px;border-radius:10px;display:none;margin-top:4px;}
+.msg.error{background:#fdf0f0;color:var(--rojo);}
+.msg.success{background:#eef8ef;color:#2c7a3f;}
+
+.volver-link{text-align:center;margin-top:24px;font-size:11px;letter-spacing:.1em;}
+.volver-link a{color:var(--gris);text-decoration:none;border-bottom:1px solid rgba(0,0,0,.15);transition:.2s;}
+.volver-link a:hover{color:var(--negro);border-bottom-color:var(--negro);}
+
+@media(max-width:480px){.card{padding:36px 24px;}}
+</style>
+</head>
+<body>
+<div class="card">
+  <div class="logo">HYT ESSENCE</div>
+  <div class="sub">Mi cuenta</div>
+
+  <div class="tabs">
+    <button class="tab active" onclick="cambiarTab('login')">Iniciar sesión</button>
+    <button class="tab" onclick="cambiarTab('registro')">Crear cuenta</button>
+  </div>
+
+  <!-- LOGIN -->
+  <div class="form active" id="form-login">
+    <div class="field">
+      <label>Correo electrónico</label>
+      <input type="email" id="login-email" placeholder="tu@correo.com">
+    </div>
+    <div class="field">
+      <label>Contraseña</label>
+      <input type="password" id="login-pass" placeholder="••••••••">
+    </div>
+    <div class="msg error" id="login-error"></div>
+    <button class="btn-submit" id="btn-login" onclick="iniciarSesion()">Entrar</button>
+    <div class="divider"><span>o</span></div>
+    <button class="btn-google" onclick="loginGoogle()">
+      <svg width="18" height="18" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
+      Continuar con Google
+    </button>
+  </div>
+
+  <!-- REGISTRO -->
+  <div class="form" id="form-registro">
+    <div class="field">
+      <label>Nombre</label>
+      <input type="text" id="reg-nombre" placeholder="Tu nombre">
+    </div>
+    <div class="field">
+      <label>Correo electrónico</label>
+      <input type="email" id="reg-email" placeholder="tu@correo.com">
+    </div>
+    <div class="field">
+      <label>Contraseña</label>
+      <input type="password" id="reg-pass" placeholder="Mínimo 6 caracteres">
+    </div>
+    <div class="msg error" id="reg-error"></div>
+    <div class="msg success" id="reg-success"></div>
+    <button class="btn-submit" id="btn-registro" onclick="registrarse()">Crear cuenta</button>
+    <div class="divider"><span>o</span></div>
+    <button class="btn-google" onclick="loginGoogle()">
+      <svg width="18" height="18" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
+      Continuar con Google
+    </button>
+  </div>
+
+  <div class="volver-link"><a href="index.html">← Volver al inicio</a></div>
+</div>
+
+<script>
+const SUPABASE_URL = 'https://ufzijqylddyaswijqtkp.supabase.co';
+const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVmemlqcXlsZGR5YXN3aWpxdGtwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzk2NTg0ODEsImV4cCI6MjA5NTIzNDQ4MX0.lIogAVoQ6lrV6bHTuI3qqiqBSV8khXI6PLBTIGNlfk4';
+const { createClient } = supabase;
+const db = createClient(SUPABASE_URL, SUPABASE_KEY);
+
+// Si ya hay sesión activa, redirigir
+db.auth.getSession().then(({ data: { session } }) => {
+  if (session) window.location.href = 'index.html';
+});
+
+function cambiarTab(tab) {
+  document.querySelectorAll('.tab').forEach((t,i) => t.classList.toggle('active', (i===0&&tab==='login')||(i===1&&tab==='registro')));
+  document.getElementById('form-login').classList.toggle('active', tab==='login');
+  document.getElementById('form-registro').classList.toggle('active', tab==='registro');
+}
+
+function setLoading(btnId, loading) {
+  const btn = document.getElementById(btnId);
+  btn.disabled = loading;
+  btn.textContent = loading ? 'Cargando...' : (btnId === 'btn-login' ? 'Entrar' : 'Crear cuenta');
+}
+
+function mostrarError(id, msg) {
+  const el = document.getElementById(id);
+  el.textContent = msg;
+  el.style.display = 'block';
+}
+
+function ocultarMensajes() {
+  ['login-error','reg-error','reg-success'].forEach(id => {
+    document.getElementById(id).style.display = 'none';
+  });
+}
+
+async function iniciarSesion() {
+  ocultarMensajes();
+  const email = document.getElementById('login-email').value.trim();
+  const pass = document.getElementById('login-pass').value;
+  if (!email || !pass) { mostrarError('login-error', 'Completa todos los campos'); return; }
+  setLoading('btn-login', true);
+  const { error } = await db.auth.signInWithPassword({ email, password: pass });
+  setLoading('btn-login', false);
+  if (error) { mostrarError('login-error', 'Correo o contraseña incorrectos'); return; }
+  const redirect = new URLSearchParams(window.location.search).get('redirect') || 'index.html';
+  window.location.href = redirect;
+}
+
+async function registrarse() {
+  ocultarMensajes();
+  const nombre = document.getElementById('reg-nombre').value.trim();
+  const email = document.getElementById('reg-email').value.trim();
+  const pass = document.getElementById('reg-pass').value;
+  if (!nombre || !email || !pass) { mostrarError('reg-error', 'Completa todos los campos'); return; }
+  if (pass.length < 6) { mostrarError('reg-error', 'La contraseña debe tener al menos 6 caracteres'); return; }
+  setLoading('btn-registro', true);
+  const { error } = await db.auth.signUp({
+    email, password: pass,
+    options: { data: { nombre } }
+  });
+  setLoading('btn-registro', false);
+  if (error) { mostrarError('reg-error', error.message); return; }
+  const success = document.getElementById('reg-success');
+  success.textContent = '¡Cuenta creada! Iniciando sesión...';
+  success.style.display = 'block';
+  setTimeout(async () => {
+    await db.auth.signInWithPassword({ email, password: pass });
+    window.location.href = 'index.html';
+  }, 1200);
+}
+
+async function loginGoogle() {
+  await db.auth.signInWithOAuth({
+    provider: 'google',
+    options: { redirectTo: window.location.origin + '/HYT/index.html' }
+  });
+}
+
+// Enter key
+document.addEventListener('keydown', e => {
+  if (e.key !== 'Enter') return;
+  if (document.getElementById('form-login').classList.contains('active')) iniciarSesion();
+  else registrarse();
+});
+</script>
+</body>
+</html>
