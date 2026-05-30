@@ -150,11 +150,12 @@ async function pedirWhatsAppDetalle(id, nombre, precio, imagen) {
 
 async function cargarProducto() {
   const id = new URLSearchParams(window.location.search).get('id');
-  if (!id) { window.location.href = 'coleccion.html'; return; }
+  if (!id || id === 'undefined' || id === 'null') { window.location.href = 'coleccion.html'; return; }
 
   const { data: p, error } = await db.from('productos').select('*').eq('id', id).single();
   if (error || !p) {
-    document.getElementById('detalle-contenido').innerHTML = `<div class="loading-wrap"><span class="loading-txt">Producto no encontrado</span></div>`;
+    console.error('Error cargando producto:', error, 'id:', id);
+    document.getElementById('detalle-contenido').innerHTML = `<div class="loading-wrap"><span class="loading-txt" style="cursor:pointer" onclick="window.location.href='coleccion.html'">Producto no encontrado — Volver al catálogo</span></div>`;
     return;
   }
 

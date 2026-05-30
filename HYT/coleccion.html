@@ -28,21 +28,21 @@ body { background: linear-gradient(180deg,#f4f2ed 0%,#ece8e1 100%); padding:60px
 .volver { text-decoration:none; padding:14px 28px; border:1px solid rgba(0,0,0,.15); border-radius:50px; color:black; font-size:11px; letter-spacing:.2em; text-transform:uppercase; transition:.35s; }
 .volver:hover { background:black; color:white; transform:translateY(-3px); }
 
-/* CARRITO BTN */
-.carrito-btn {
+/* CARRITO FAB */
+.carrito-fab {
   position:relative; background:var(--negro); color:white;
-  border:none; border-radius:50px; padding:14px 24px;
-  font-family:var(--sans); font-size:11px; letter-spacing:.2em;
-  text-transform:uppercase; cursor:pointer; transition:.3s;
-  display:flex; align-items:center; gap:8px;
+  border:none; border-radius:50%; width:46px; height:46px;
+  cursor:pointer; transition:.3s; display:flex; align-items:center; justify-content:center;
+  flex-shrink:0;
 }
-.carrito-btn:hover { opacity:.85; transform:translateY(-2px); }
+.carrito-fab:hover { opacity:.85; transform:translateY(-2px); }
 .carrito-count {
-  background:white; color:var(--negro);
-  border-radius:50%; width:20px; height:20px;
-  font-size:11px; font-weight:600;
-  display:flex; align-items:center; justify-content:center;
-  display:none;
+  position:absolute; top:-6px; right:-6px;
+  background:#e74c3c; color:white;
+  border-radius:50%; width:18px; height:18px;
+  font-size:10px; font-weight:700;
+  display:none; align-items:center; justify-content:center;
+  border:2px solid var(--fondo);
 }
 .carrito-count.visible { display:flex; }
 
@@ -254,6 +254,8 @@ body { background: linear-gradient(180deg,#f4f2ed 0%,#ece8e1 100%); padding:60px
   .carrito-header { padding:20px; }
   .carrito-items { padding:16px 20px; }
   .carrito-footer { padding:16px 20px 24px; }
+  .volver { padding:10px 16px; font-size:10px; }
+  .carrito-fab { width:40px; height:40px; }
 }
 </style>
 </head>
@@ -264,10 +266,11 @@ body { background: linear-gradient(180deg,#f4f2ed 0%,#ece8e1 100%); padding:60px
   <div class="logo">HYT ESSENCE</div>
   <div class="header-right">
     <a href="index.html" class="volver">← Volver</a>
-    <button class="carrito-btn" onclick="abrirCarrito()">
-      🛒 Carrito
-      <span class="carrito-count" id="carrito-count">0</span>
+    <button class="carrito-fab" onclick="abrirCarrito()" id="carrito-fab">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+      <span class="carrito-count" id="carrito-count"></span>
     </button>
+    <div class="hamburger dark" onclick="abrirMenu()"><span></span><span></span><span></span></div>
   </div>
 </div>
 
@@ -339,7 +342,7 @@ function guardarCarrito() {
 function actualizarContador() {
   const total = carrito.reduce((s, i) => s + i.cantidad, 0);
   const el = document.getElementById('carrito-count');
-  el.textContent = total;
+  el.textContent = total > 0 ? total : '';
   el.classList.toggle('visible', total > 0);
 }
 
@@ -591,5 +594,7 @@ async function agregarDesdeTabla(id, nombre, precio, imagen) {
 cargarProductos();
 actualizarContador();
 </script>
+<div id="hyt-menu-root"></div>
+<script src="menu.js" defer></script>
 </body>
 </html>
