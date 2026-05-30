@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>HYT ESSENCE — Ropa</title>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Tenor+Sans&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="menu.css">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
@@ -49,7 +50,7 @@ body{background:var(--ink);color:var(--white);font-family:var(--sans);overflow-x
 .nav-links{display:flex;gap:36px;list-style:none;}
 .nav-links a{font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--white);text-decoration:none;opacity:.55;transition:opacity .3s;}
 .nav-links a:hover{opacity:1;}
-.nav-menu{display:flex;flex-direction:column;gap:5px;cursor:pointer;}
+
 .nav-menu span{width:22px;height:1px;background:var(--white);display:block;}
 
 
@@ -390,7 +391,7 @@ footer{background:var(--ink);color:var(--white);border-top:1px solid rgba(255,25
     <a href="#" class="nav-logo">HYT ESSENCE</a>
   </div>
   <div class="nav-right">
-    <div class="nav-menu" onclick="abrirMenu()"><span></span><span></span><span></span></div>
+    <div class="hamburger light" onclick="abrirMenu()"><span></span><span></span><span></span></div>
   </div>
 </nav>
 
@@ -500,22 +501,8 @@ footer{background:var(--ink);color:var(--white);border-top:1px solid rgba(255,25
   <span class="f-text">México</span>
 </footer>
 
-<!-- MENU DRAWER -->
-<div class="menu-overlay" id="menu-overlay" onclick="cerrarMenu()"></div>
-<div class="menu-drawer" id="menu-drawer">
-  <div class="menu-top">
-    <span class="menu-logo">HYT</span>
-    <button class="menu-close" onclick="cerrarMenu()">✕</button>
-  </div>
-  <div class="menu-profile" id="menu-profile" style="display:none"></div>
-  <div class="menu-links">
-    <a href="coleccion.html" class="menu-link">Colección</a>
-    <a href="#nosotros" class="menu-link" onclick="cerrarMenu()">Nosotros</a>
-    <a href="#contacto" class="menu-link" onclick="cerrarMenu()">Contacto</a>
-    <a href="historial.html" class="menu-link" id="link-historial" style="display:none">Mis pedidos</a>
-  </div>
-  <div class="menu-footer" id="menu-footer"></div>
-</div>
+<div id="hyt-menu-root"></div>
+<script src="menu.js" defer></script>
 
 <script>
 const SUPABASE_URL = 'https://ufzijqylddyaswijqtkp.supabase.co';
@@ -524,43 +511,7 @@ const { createClient } = supabase;
 const db = createClient(SUPABASE_URL, SUPABASE_KEY);
 
 
-// MENU DRAWER
-function abrirMenu() {
-  document.getElementById('menu-overlay').classList.add('open');
-  document.getElementById('menu-drawer').classList.add('open');
-}
-function cerrarMenu() {
-  document.getElementById('menu-overlay').classList.remove('open');
-  document.getElementById('menu-drawer').classList.remove('open');
-}
 
-async function initMenu() {
-  const { data: { session } } = await db.auth.getSession();
-  const profile = document.getElementById('menu-profile');
-  const footer = document.getElementById('menu-footer');
-  const linkHistorial = document.getElementById('link-historial');
-  if (session) {
-    const nombre = session.user.user_metadata?.nombre || session.user.email.split('@')[0];
-    const email = session.user.email;
-    profile.style.display = 'block';
-    profile.innerHTML = `
-      <div class="menu-profile-name">${nombre}</div>
-      <div class="menu-profile-email">${email}</div>`;
-    footer.innerHTML = `<button class="menu-auth-btn logout" onclick="cerrarSesion()">Cerrar sesión</button>`;
-    if (linkHistorial) linkHistorial.style.display = 'block';
-  } else {
-    profile.style.display = 'none';
-    if (linkHistorial) linkHistorial.style.display = 'none';
-    footer.innerHTML = `<a href="login.html" class="menu-auth-btn login" style="display:block;text-align:center;text-decoration:none;">Iniciar sesión</a>`;
-  }
-}
-
-async function cerrarSesion() {
-  await db.auth.signOut();
-  window.location.reload();
-}
-
-initMenu();
 
 // Carrusel scroll infinito nativo
 async function cargarCarrusel() {

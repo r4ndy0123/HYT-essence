@@ -3,37 +3,46 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>HYT ESSENCE — Iniciar sesión</title>
+<title>HYT ESSENCE — Mi cuenta</title>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500&family=Tenor+Sans&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="menu.css">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
 *{margin:0;padding:0;box-sizing:border-box;}
-:root{
-  --negro:#0a0a09;--blanco:#fff;--fondo:#f4f2ed;--gris:#8f8f8f;
-  --serif:'Cormorant Garamond',serif;--sans:'Tenor Sans',sans-serif;
-  --rojo:#c0392b;
-}
+:root{--negro:#0a0a09;--fondo:#f4f2ed;--gris:#8f8f8f;--serif:'Cormorant Garamond',serif;--sans:'Tenor Sans',sans-serif;--rojo:#c0392b;--verde:#2c7a3f;}
 body{min-height:100vh;background:linear-gradient(135deg,#0a0a09 0%,#1a1714 100%);display:flex;align-items:center;justify-content:center;font-family:var(--sans);padding:20px;}
 
-.card{background:var(--fondo);border-radius:28px;padding:52px 48px;width:100%;max-width:420px;}
+.card{background:var(--fondo);border-radius:28px;padding:52px 48px;width:100%;max-width:440px;}
 .logo{font-family:var(--serif);font-size:24px;letter-spacing:.35em;text-align:center;margin-bottom:6px;}
-.sub{font-size:10px;letter-spacing:.25em;text-transform:uppercase;color:var(--gris);text-align:center;margin-bottom:40px;}
+.sub{font-size:10px;letter-spacing:.25em;text-transform:uppercase;color:var(--gris);text-align:center;margin-bottom:36px;}
 
-.tabs{display:flex;border-bottom:1px solid rgba(0,0,0,.1);margin-bottom:32px;}
+.tabs{display:flex;border-bottom:1px solid rgba(0,0,0,.1);margin-bottom:28px;}
 .tab{flex:1;padding:12px;font-family:var(--sans);font-size:10px;letter-spacing:.2em;text-transform:uppercase;background:none;border:none;cursor:pointer;color:var(--gris);transition:.2s;border-bottom:2px solid transparent;margin-bottom:-1px;}
 .tab.active{color:var(--negro);border-bottom-color:var(--negro);}
 
-.form{display:none;flex-direction:column;gap:14px;}
+.form{display:none;flex-direction:column;gap:12px;}
 .form.active{display:flex;}
 
-.field{display:flex;flex-direction:column;gap:6px;}
+.field{display:flex;flex-direction:column;gap:6px;position:relative;}
 .field label{font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--gris);}
 .field input{padding:13px 16px;border:1px solid rgba(0,0,0,.12);border-radius:12px;font-family:var(--sans);font-size:14px;outline:none;transition:.2s;background:white;}
 .field input:focus{border-color:var(--negro);}
+.field input.invalid{border-color:var(--rojo);}
 
-.btn-submit{padding:16px;background:var(--negro);color:white;border:none;border-radius:50px;font-family:var(--sans);font-size:11px;letter-spacing:.2em;text-transform:uppercase;cursor:pointer;transition:.3s;margin-top:8px;}
+/* Password strength */
+.pass-rules{margin-top:6px;display:flex;flex-direction:column;gap:4px;}
+.rule{font-size:10px;letter-spacing:.1em;display:flex;align-items:center;gap:6px;color:rgba(0,0,0,.4);transition:.2s;}
+.rule.ok{color:var(--verde);}
+.rule::before{content:'○';font-size:8px;}
+.rule.ok::before{content:'●';}
+
+.btn-submit{padding:16px;background:var(--negro);color:white;border:none;border-radius:50px;font-family:var(--sans);font-size:11px;letter-spacing:.2em;text-transform:uppercase;cursor:pointer;transition:.3s;margin-top:4px;}
 .btn-submit:hover{opacity:.85;}
 .btn-submit:disabled{opacity:.5;cursor:not-allowed;}
+
+.forgot{text-align:right;margin-top:-4px;}
+.forgot-link{font-size:10px;letter-spacing:.1em;color:var(--gris);cursor:pointer;text-decoration:none;border-bottom:1px solid transparent;transition:.2s;}
+.forgot-link:hover{color:var(--negro);border-bottom-color:var(--negro);}
 
 .divider{display:flex;align-items:center;gap:12px;margin:4px 0;}
 .divider span{font-size:10px;letter-spacing:.15em;text-transform:uppercase;color:var(--gris);white-space:nowrap;}
@@ -41,20 +50,28 @@ body{min-height:100vh;background:linear-gradient(135deg,#0a0a09 0%,#1a1714 100%)
 
 .btn-google{padding:14px;background:white;color:var(--negro);border:1px solid rgba(0,0,0,.12);border-radius:50px;font-family:var(--sans);font-size:11px;letter-spacing:.15em;text-transform:uppercase;cursor:pointer;transition:.3s;display:flex;align-items:center;justify-content:center;gap:10px;}
 .btn-google:hover{border-color:var(--negro);}
-.btn-google svg{flex-shrink:0;}
 
-.msg{font-size:12px;padding:12px 16px;border-radius:10px;display:none;margin-top:4px;}
+.msg{font-size:12px;padding:12px 16px;border-radius:10px;display:none;margin-top:2px;}
 .msg.error{background:#fdf0f0;color:var(--rojo);}
-.msg.success{background:#eef8ef;color:#2c7a3f;}
+.msg.success{background:#eef8ef;color:var(--verde);}
 
-.volver-link{text-align:center;margin-top:24px;font-size:11px;letter-spacing:.1em;}
+.volver-link{text-align:center;margin-top:20px;font-size:11px;}
 .volver-link a{color:var(--gris);text-decoration:none;border-bottom:1px solid rgba(0,0,0,.15);transition:.2s;}
-.volver-link a:hover{color:var(--negro);border-bottom-color:var(--negro);}
+.volver-link a:hover{color:var(--negro);}
 
-@media(max-width:480px){.card{padding:36px 24px;}}
+/* HAMBURGER fixed */
+.hyt-hamburger-fixed{position:fixed;top:20px;right:20px;z-index:100;display:flex;flex-direction:column;gap:5px;cursor:pointer;padding:8px;background:rgba(255,255,255,.1);border-radius:8px;}
+.hyt-hamburger-fixed span{width:20px;height:1px;background:white;display:block;}
+
+@media(max-width:480px){.card{padding:32px 20px;}}
 </style>
 </head>
 <body>
+
+<div class="hyt-hamburger-fixed" onclick="abrirMenu()">
+  <span></span><span></span><span></span>
+</div>
+
 <div class="card">
   <div class="logo">HYT ESSENCE</div>
   <div class="sub">Mi cuenta</div>
@@ -73,6 +90,9 @@ body{min-height:100vh;background:linear-gradient(135deg,#0a0a09 0%,#1a1714 100%)
     <div class="field">
       <label>Contraseña</label>
       <input type="password" id="login-pass" placeholder="••••••••">
+    </div>
+    <div class="forgot">
+      <span class="forgot-link" onclick="cambiarTab('forgot')">¿Olvidaste tu contraseña?</span>
     </div>
     <div class="msg error" id="login-error"></div>
     <button class="btn-submit" id="btn-login" onclick="iniciarSesion()">Entrar</button>
@@ -95,7 +115,14 @@ body{min-height:100vh;background:linear-gradient(135deg,#0a0a09 0%,#1a1714 100%)
     </div>
     <div class="field">
       <label>Contraseña</label>
-      <input type="password" id="reg-pass" placeholder="Mínimo 6 caracteres">
+      <input type="password" id="reg-pass" placeholder="Mínimo 8 caracteres" oninput="validarPass(this.value)">
+      <div class="pass-rules" id="pass-rules">
+        <span class="rule" id="rule-len">Mínimo 8 caracteres</span>
+        <span class="rule" id="rule-upper">Una letra mayúscula</span>
+        <span class="rule" id="rule-lower">Una letra minúscula</span>
+        <span class="rule" id="rule-num">Un número</span>
+        <span class="rule" id="rule-special">Un carácter especial (!@#$%)</span>
+      </div>
     </div>
     <div class="msg error" id="reg-error"></div>
     <div class="msg success" id="reg-success"></div>
@@ -107,8 +134,25 @@ body{min-height:100vh;background:linear-gradient(135deg,#0a0a09 0%,#1a1714 100%)
     </button>
   </div>
 
+  <!-- FORGOT PASSWORD -->
+  <div class="form" id="form-forgot">
+    <div class="field">
+      <label>Correo electrónico</label>
+      <input type="email" id="forgot-email" placeholder="tu@correo.com">
+    </div>
+    <div class="msg error" id="forgot-error"></div>
+    <div class="msg success" id="forgot-success"></div>
+    <button class="btn-submit" id="btn-forgot" onclick="enviarReset()">Enviar enlace de recuperación</button>
+    <div style="text-align:center;margin-top:12px;">
+      <span class="forgot-link" onclick="cambiarTab('login')">← Volver al login</span>
+    </div>
+  </div>
+
   <div class="volver-link"><a href="index.html">← Volver al inicio</a></div>
 </div>
+
+<div id="hyt-menu-root"></div>
+<script src="menu.js" defer></script>
 
 <script>
 const SUPABASE_URL = 'https://ufzijqylddyaswijqtkp.supabase.co';
@@ -116,44 +160,65 @@ const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZ
 const { createClient } = supabase;
 const db = createClient(SUPABASE_URL, SUPABASE_KEY);
 
-// Si ya hay sesión activa, redirigir
 db.auth.getSession().then(({ data: { session } }) => {
   if (session) window.location.href = 'index.html';
 });
 
+const TABS = ['login','registro','forgot'];
 function cambiarTab(tab) {
-  document.querySelectorAll('.tab').forEach((t,i) => t.classList.toggle('active', (i===0&&tab==='login')||(i===1&&tab==='registro')));
-  document.getElementById('form-login').classList.toggle('active', tab==='login');
-  document.getElementById('form-registro').classList.toggle('active', tab==='registro');
+  TABS.forEach(t => {
+    document.querySelectorAll('.tab').forEach((el,i) => el.classList.toggle('active', i===0&&tab==='login'||i===1&&tab==='registro'));
+    document.getElementById('form-'+t).classList.toggle('active', t===tab);
+  });
+  ocultarMensajes();
 }
 
-function setLoading(btnId, loading) {
-  const btn = document.getElementById(btnId);
-  btn.disabled = loading;
-  btn.textContent = loading ? 'Cargando...' : (btnId === 'btn-login' ? 'Entrar' : 'Crear cuenta');
+function ocultarMensajes() {
+  ['login-error','reg-error','reg-success','forgot-error','forgot-success'].forEach(id => {
+    const el = document.getElementById(id); if(el) el.style.display='none';
+  });
 }
 
-function mostrarError(id, msg) {
+function mostrarMsg(id, msg) {
   const el = document.getElementById(id);
   el.textContent = msg;
   el.style.display = 'block';
 }
 
-function ocultarMensajes() {
-  ['login-error','reg-error','reg-success'].forEach(id => {
-    document.getElementById(id).style.display = 'none';
+function setLoading(btnId, loading, text) {
+  const btn = document.getElementById(btnId);
+  btn.disabled = loading;
+  btn.textContent = loading ? 'Cargando...' : text;
+}
+
+// Password validation
+const rules = {
+  len: v => v.length >= 8,
+  upper: v => /[A-Z]/.test(v),
+  lower: v => /[a-z]/.test(v),
+  num: v => /[0-9]/.test(v),
+  special: v => /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/.test(v)
+};
+
+function validarPass(v) {
+  Object.entries(rules).forEach(([k, fn]) => {
+    document.getElementById('rule-'+k)?.classList.toggle('ok', fn(v));
   });
+}
+
+function passValida(v) {
+  return Object.values(rules).every(fn => fn(v));
 }
 
 async function iniciarSesion() {
   ocultarMensajes();
   const email = document.getElementById('login-email').value.trim();
   const pass = document.getElementById('login-pass').value;
-  if (!email || !pass) { mostrarError('login-error', 'Completa todos los campos'); return; }
-  setLoading('btn-login', true);
+  if (!email || !pass) { mostrarMsg('login-error','Completa todos los campos'); return; }
+  setLoading('btn-login', true, 'Entrar');
   const { error } = await db.auth.signInWithPassword({ email, password: pass });
-  setLoading('btn-login', false);
-  if (error) { mostrarError('login-error', 'Correo o contraseña incorrectos'); return; }
+  setLoading('btn-login', false, 'Entrar');
+  if (error) { mostrarMsg('login-error','Correo o contraseña incorrectos'); return; }
   const redirect = new URLSearchParams(window.location.search).get('redirect') || 'index.html';
   window.location.href = redirect;
 }
@@ -163,22 +228,30 @@ async function registrarse() {
   const nombre = document.getElementById('reg-nombre').value.trim();
   const email = document.getElementById('reg-email').value.trim();
   const pass = document.getElementById('reg-pass').value;
-  if (!nombre || !email || !pass) { mostrarError('reg-error', 'Completa todos los campos'); return; }
-  if (pass.length < 6) { mostrarError('reg-error', 'La contraseña debe tener al menos 6 caracteres'); return; }
-  setLoading('btn-registro', true);
-  const { error } = await db.auth.signUp({
-    email, password: pass,
-    options: { data: { nombre } }
-  });
-  setLoading('btn-registro', false);
-  if (error) { mostrarError('reg-error', error.message); return; }
-  const success = document.getElementById('reg-success');
-  success.textContent = '¡Cuenta creada! Iniciando sesión...';
-  success.style.display = 'block';
+  if (!nombre || !email || !pass) { mostrarMsg('reg-error','Completa todos los campos'); return; }
+  if (!passValida(pass)) { mostrarMsg('reg-error','La contraseña no cumple los requisitos de seguridad'); return; }
+  setLoading('btn-registro', true, 'Crear cuenta');
+  const { error } = await db.auth.signUp({ email, password: pass, options: { data: { nombre } } });
+  setLoading('btn-registro', false, 'Crear cuenta');
+  if (error) { mostrarMsg('reg-error', error.message); return; }
+  mostrarMsg('reg-success','¡Cuenta creada! Iniciando sesión...');
   setTimeout(async () => {
     await db.auth.signInWithPassword({ email, password: pass });
     window.location.href = 'index.html';
   }, 1200);
+}
+
+async function enviarReset() {
+  ocultarMensajes();
+  const email = document.getElementById('forgot-email').value.trim();
+  if (!email) { mostrarMsg('forgot-error','Ingresa tu correo'); return; }
+  setLoading('btn-forgot', true, 'Enviar enlace de recuperación');
+  const { error } = await db.auth.resetPasswordForEmail(email, {
+    redirectTo: window.location.origin + '/HYT/reset.html'
+  });
+  setLoading('btn-forgot', false, 'Enviar enlace de recuperación');
+  if (error) { mostrarMsg('forgot-error', error.message); return; }
+  mostrarMsg('forgot-success','Te enviamos un enlace a tu correo. Revisa tu bandeja de entrada.');
 }
 
 async function loginGoogle() {
@@ -188,11 +261,11 @@ async function loginGoogle() {
   });
 }
 
-// Enter key
 document.addEventListener('keydown', e => {
   if (e.key !== 'Enter') return;
   if (document.getElementById('form-login').classList.contains('active')) iniciarSesion();
-  else registrarse();
+  else if (document.getElementById('form-registro').classList.contains('active')) registrarse();
+  else if (document.getElementById('form-forgot').classList.contains('active')) enviarReset();
 });
 </script>
 </body>

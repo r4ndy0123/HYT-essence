@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>HYT — Panel Admin</title>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500&family=Tenor+Sans&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="menu.css">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
 * { margin:0; padding:0; box-sizing:border-box; }
@@ -594,6 +595,7 @@ body {
   <div class="topbar">
     <div class="topbar-logo">HYT ESSENCE</div>
     <div class="topbar-right">
+      <div class="hamburger light" onclick="abrirMenu()"><span></span><span></span><span></span></div>
       <span class="topbar-user" id="user-email"></span>
       <button class="btn-logout" onclick="cerrarSesion()">Salir</button>
     </div>
@@ -1013,5 +1015,7 @@ document.addEventListener('keydown', e => {
   }
 });
 </script>
+<div id="hyt-menu-root"></div>
+<script src="menu.js" defer></script>
 </body>
 </html>

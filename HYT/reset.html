@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HYT — Nueva contraseña</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500&family=Tenor+Sans&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+:root{--negro:#0a0a09;--fondo:#f4f2ed;--gris:#8f8f8f;--serif:'Cormorant Garamond',serif;--sans:'Tenor Sans',sans-serif;--rojo:#c0392b;--verde:#2c7a3f;}
+body{min-height:100vh;background:linear-gradient(135deg,#0a0a09 0%,#1a1714 100%);display:flex;align-items:center;justify-content:center;font-family:var(--sans);padding:20px;}
+.card{background:var(--fondo);border-radius:28px;padding:52px 48px;width:100%;max-width:420px;}
+.logo{font-family:var(--serif);font-size:24px;letter-spacing:.35em;text-align:center;margin-bottom:6px;}
+.sub{font-size:10px;letter-spacing:.25em;text-transform:uppercase;color:var(--gris);text-align:center;margin-bottom:36px;}
+.field{display:flex;flex-direction:column;gap:6px;margin-bottom:14px;}
+.field label{font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--gris);}
+.field input{padding:13px 16px;border:1px solid rgba(0,0,0,.12);border-radius:12px;font-family:var(--sans);font-size:14px;outline:none;transition:.2s;background:white;}
+.field input:focus{border-color:var(--negro);}
+.pass-rules{margin-top:6px;display:flex;flex-direction:column;gap:4px;}
+.rule{font-size:10px;letter-spacing:.1em;display:flex;align-items:center;gap:6px;color:rgba(0,0,0,.4);transition:.2s;}
+.rule.ok{color:var(--verde);}
+.rule::before{content:'○';font-size:8px;}
+.rule.ok::before{content:'●';}
+.btn-submit{width:100%;padding:16px;background:var(--negro);color:white;border:none;border-radius:50px;font-family:var(--sans);font-size:11px;letter-spacing:.2em;text-transform:uppercase;cursor:pointer;transition:.3s;margin-top:8px;}
+.btn-submit:hover{opacity:.85;}
+.btn-submit:disabled{opacity:.5;cursor:not-allowed;}
+.msg{font-size:12px;padding:12px 16px;border-radius:10px;display:none;margin:8px 0;}
+.msg.error{background:#fdf0f0;color:var(--rojo);}
+.msg.success{background:#eef8ef;color:var(--verde);}
+@media(max-width:480px){.card{padding:32px 20px;}}
+</style>
+</head>
+<body>
+<div class="card">
+  <div class="logo">HYT ESSENCE</div>
+  <div class="sub">Nueva contraseña</div>
+
+  <div class="field">
+    <label>Nueva contraseña</label>
+    <input type="password" id="new-pass" placeholder="Mínimo 8 caracteres" oninput="validarPass(this.value)">
+    <div class="pass-rules">
+      <span class="rule" id="rule-len">Mínimo 8 caracteres</span>
+      <span class="rule" id="rule-upper">Una letra mayúscula</span>
+      <span class="rule" id="rule-lower">Una letra minúscula</span>
+      <span class="rule" id="rule-num">Un número</span>
+      <span class="rule" id="rule-special">Un carácter especial (!@#$%)</span>
+    </div>
+  </div>
+  <div class="field">
+    <label>Confirmar contraseña</label>
+    <input type="password" id="confirm-pass" placeholder="Repite tu contraseña">
+  </div>
+  <div class="msg error" id="reset-error"></div>
+  <div class="msg success" id="reset-success"></div>
+  <button class="btn-submit" id="btn-reset" onclick="cambiarPass()">Guardar nueva contraseña</button>
+</div>
+
+<script>
+const SUPABASE_URL = 'https://ufzijqylddyaswijqtkp.supabase.co';
+const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVmemlqcXlsZGR5YXN3aWpxdGtwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzk2NTg0ODEsImV4cCI6MjA5NTIzNDQ4MX0.lIogAVoQ6lrV6bHTuI3qqiqBSV8khXI6PLBTIGNlfk4';
+const { createClient } = supabase;
+const db = createClient(SUPABASE_URL, SUPABASE_KEY);
+
+const rules = {
+  len: v => v.length >= 8,
+  upper: v => /[A-Z]/.test(v),
+  lower: v => /[a-z]/.test(v),
+  num: v => /[0-9]/.test(v),
+  special: v => /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/.test(v)
+};
+
+function validarPass(v) {
+  Object.entries(rules).forEach(([k,fn]) => document.getElementById('rule-'+k)?.classList.toggle('ok', fn(v)));
+}
+
+function passValida(v) { return Object.values(rules).every(fn => fn(v)); }
+
+async function cambiarPass() {
+  const pass = document.getElementById('new-pass').value;
+  const confirm = document.getElementById('confirm-pass').value;
+  const errEl = document.getElementById('reset-error');
+  const okEl = document.getElementById('reset-success');
+  errEl.style.display = 'none'; okEl.style.display = 'none';
+
+  if (!passValida(pass)) { errEl.textContent = 'La contraseña no cumple los requisitos'; errEl.style.display = 'block'; return; }
+  if (pass !== confirm) { errEl.textContent = 'Las contraseñas no coinciden'; errEl.style.display = 'block'; return; }
+
+  const btn = document.getElementById('btn-reset');
+  btn.disabled = true; btn.textContent = 'Guardando...';
+
+  const { error } = await db.auth.updateUser({ password: pass });
+  btn.disabled = false; btn.textContent = 'Guardar nueva contraseña';
+
+  if (error) { errEl.textContent = error.message; errEl.style.display = 'block'; return; }
+  okEl.textContent = '¡Contraseña actualizada! Redirigiendo...';
+  okEl.style.display = 'block';
+  setTimeout(() => window.location.href = 'index.html', 2000);
+}
+</script>
+</body>
+</html>
