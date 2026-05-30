@@ -359,23 +359,49 @@ function seleccionarTalla(btn, prodId) {
 }
 
 async function agregarDesdeTabla(id, nombre, precio, imagen) {
+  // 1. Obtener la talla seleccionada
   const selected = document.querySelector(`#tallas-${id} .talla-opt.selected`);
   const talla = selected ? selected.dataset.talla : null;
   if (!talla) { mostrarToast('Selecciona una talla'); return; }
 
-  // Verificar stock en tiempo real desde Supabase
+  // 2. Verificar stock en Supabase
   const { data: prod } = await db.from('productos').select('stock').eq('id', id).single();
   const stockReal = prod ? (prod.stock || 0) : 0;
   const enCarrito = carrito.filter(i => i.id == id).reduce((s,i) => s + i.cantidad, 0);
+  
   if (enCarrito >= stockReal) {
-    mostrarToast('No hay más stock disponible');
+    mostrarToast(`Solo hay ${stockReal} en stock`);
     return;
   }
 
-  agregarAlCarrito(id, nombre, precio, talla, imagen);
-  if (selected) selected.classList.remove('selected');
-}
+  // 3. Agregar o sumar al carrito
+  const key = `${id}_${talla}`;
+  const existing = carrito.find(i => i.key === key);
+  
+  if (existing) {
+    existing.cantidad++;
+  } else {
+    carrito.push({ key, id, nombre, precio, talla, imagen, cantidad: 1 });
+  }
 
+  // 4. Guardar en LocalStorage
+  guardarCarrito();
+
+  // 5. MOSTRAR EL TOAST INMEDIATAMENTE (Para que nada lo bloquee)
+  mostrarToast(`${nombre} (${talla}) agregado`);
+
+  // 6. Limpiar el botón de talla en la vista
+  if (selected) selected.classList.remove('selected');
+
+  // 7. Renderizar el carrito de forma segura (si existe la función)
+  try {
+    if (typeof renderCarrito === 'function') {
+      renderCarrito();
+    }
+  } catch (error) {
+    console.warn("No se pudo renderizar el carrito en esta vista, pero el producto se agregó con éxito.");
+  }
+}
 cargarProductos();
 </script>
 <div id="hyt-menu-root"></div>

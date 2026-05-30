@@ -522,9 +522,11 @@ async function cargarCarrusel() {
     .order('created_at', { ascending: true });
   if (error || !productos || !productos.length) return;
 
-  const html = productos.map(p => `
-    <div class="pill" onclick="window.location.href='coleccion.html'">
-      <img src="${p.imagen_url}" class="pill-img" alt="${p.nombre}">
+const html = productos.map(p => `
+    <div class="pill" onclick="window.location.href='detalle.html?id=${p.id}'">
+      ${p.imagen_url
+        ? `<img src="${p.imagen_url}" class="pill-img" alt="${p.nombre}">`
+        : `<div class="pill-img-ph"></div>`}
       <div class="pill-grain"></div>
     </div>`).join('');
 

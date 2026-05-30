@@ -160,6 +160,41 @@ body{background:var(--fondo);min-height:100vh;font-family:var(--sans);color:var(
 }
 .toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
 
+/* MODAL VACIAR CARRITO */
+.modal-overlay {
+  position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+  background: rgba(0,0,0,0.3); backdrop-filter: blur(5px);
+  display: flex; align-items: center; justify-content: center;
+  z-index: 1000; opacity: 0; pointer-events: none; transition: opacity 0.3s ease;
+}
+.modal-overlay.show { opacity: 1; pointer-events: auto; }
+
+.modal-box {
+  background: white; border-radius: 24px; padding: 40px;
+  max-width: 380px; width: 90%; text-align: center;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+  transform: translateY(20px); transition: transform 0.3s ease;
+}
+.modal-overlay.show .modal-box { transform: translateY(0); }
+
+.modal-titulo { font-family: var(--serif); font-size: 32px; font-weight: 300; margin-bottom: 12px; }
+.modal-texto { font-size: 13px; color: var(--gris); margin-bottom: 30px; line-height: 1.5; }
+
+.modal-acciones { display: flex; gap: 12px; justify-content: center; }
+.btn-modal-cancel {
+  padding: 12px 24px; border: 1px solid rgba(0,0,0,0.15); border-radius: 50px;
+  background: transparent; color: var(--negro); font-family: var(--sans);
+  font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase; cursor: pointer; transition: 0.2s;
+}
+.btn-modal-cancel:hover { background: var(--fondo); }
+
+.btn-modal-confirm {
+  padding: 12px 24px; border: none; border-radius: 50px;
+  background: var(--rojo); color: white; font-family: var(--sans);
+  font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase; cursor: pointer; transition: 0.2s;
+}
+.btn-modal-confirm:hover { opacity: 0.85; }
+
 /* RESPONSIVE */
 @media(max-width:900px){
   .nav{padding:16px 20px;}
@@ -197,6 +232,17 @@ body{background:var(--fondo);min-height:100vh;font-family:var(--sans);color:var(
   </div>
   <div class="carrito-layout" id="carrito-layout">
     <!-- renderizado por JS -->
+  </div>
+</div>
+
+<div id="modal-vaciar" class="modal-overlay">
+  <div class="modal-box">
+    <h2 class="modal-titulo">¿Vaciar carrito?</h2>
+    <p class="modal-texto">Se eliminarán todos los productos de tu carrito. Esta acción no se puede deshacer.</p>
+    <div class="modal-acciones">
+      <button class="btn-modal-cancel" onclick="cerrarModalVaciar()">Cancelar</button>
+      <button class="btn-modal-confirm" onclick="confirmarVaciar()">Vaciar</button>
+    </div>
   </div>
 </div>
 
@@ -247,10 +293,22 @@ function eliminarItem(key) {
 }
 
 function vaciarCarrito() {
-  if (!confirm('¿Vaciar todo el carrito?')) return;
+  // En lugar del 'confirm', abrimos nuestro modal elegante
+  document.getElementById('modal-vaciar').classList.add('show');
+}
+
+function cerrarModalVaciar() {
+  // Cierra el modal si el usuario se arrepiente
+  document.getElementById('modal-vaciar').classList.remove('show');
+}
+
+function confirmarVaciar() {
+  // Ejecuta el vaciado, cierra el modal y avisa al usuario
   carrito = [];
   guardar();
   render();
+  cerrarModalVaciar();
+  mostrarToast('Carrito vaciado');
 }
 
 async function pedirWhatsApp() {

@@ -15,14 +15,14 @@ document.getElementById('hyt-menu-root').innerHTML = `
   <div class="menu-profile" id="menu-profile" style="display:none"></div>
   <div class="menu-links">
     <a href="index.html"      class="menu-link">Inicio</a>
-    <a href="coleccion.html"  class="menu-link">Colección</a>
     <a href="index.html#nosotros" class="menu-link">Nosotros</a>
     <a href="index.html#contacto" class="menu-link">Contacto</a>
+    <a href="coleccion.html"  class="menu-link">Colección</a>
     <a href="historial.html"  class="menu-link menu-link-auth" style="display:none">Mis pedidos</a>
     <a href="carrito.html"    class="menu-link menu-link-carrito" style="display:none">
       Mi carrito <span class="menu-carrito-badge" id="menu-carrito-badge"></span>
     </a>
-    <a href="admin.html"      class="menu-link menu-link-admin"  style="display:none">Panel admin</a>
+    <a href="admin.html"      class="menu-link menu-link-admin"  style="display:none">Gestión de inventario</a>
   </div>
   <div class="menu-footer" id="menu-footer"></div>
 </div>`;
