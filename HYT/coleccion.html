@@ -28,25 +28,7 @@ body { background: linear-gradient(180deg,#f4f2ed 0%,#ece8e1 100%); padding:60px
 .volver { text-decoration:none; padding:14px 28px; border:1px solid rgba(0,0,0,.15); border-radius:50px; color:black; font-size:11px; letter-spacing:.2em; text-transform:uppercase; transition:.35s; }
 .volver:hover { background:black; color:white; transform:translateY(-3px); }
 
-/* CARRITO FAB */
-.carrito-fab {
-  position:relative; background:var(--negro); color:white;
-  border:none; border-radius:50%; width:46px; height:46px;
-  cursor:pointer; transition:.3s; display:flex; align-items:center; justify-content:center;
-  flex-shrink:0;
-}
-.carrito-fab:hover { opacity:.85; transform:translateY(-2px); }
-.carrito-count {
-  position:absolute; top:-6px; right:-6px;
-  background:#e74c3c; color:white;
-  border-radius:50%; width:18px; height:18px;
-  font-size:10px; font-weight:700;
-  display:none; align-items:center; justify-content:center;
-  border:2px solid var(--fondo);
-}
-.carrito-count.visible { display:flex; }
-
-/* TITULO */
+/* AUTH */
 .titulo { text-align:center; margin-bottom:60px; }
 .titulo span { font-size:11px; letter-spacing:.35em; text-transform:uppercase; color:var(--gris); display:block; margin-bottom:15px; }
 .titulo h1 { font-family:var(--serif); font-size:72px; font-weight:300; letter-spacing:.05em; }
@@ -136,70 +118,6 @@ body { background: linear-gradient(180deg,#f4f2ed 0%,#ece8e1 100%); padding:60px
 .empty p { font-family:var(--serif); font-size:28px; font-weight:300; color:var(--gris); margin-bottom:12px; }
 .empty span { font-size:12px; letter-spacing:.2em; text-transform:uppercase; color:#bbb; }
 
-/* ======= PANEL CARRITO ======= */
-.carrito-overlay {
-  position:fixed; inset:0; background:rgba(0,0,0,.4);
-  z-index:500; opacity:0; pointer-events:none; transition:opacity .3s;
-}
-.carrito-overlay.open { opacity:1; pointer-events:all; }
-
-.carrito-panel {
-  position:fixed; top:0; right:0; bottom:0; width:420px; max-width:95vw;
-  background:white; z-index:501; display:flex; flex-direction:column;
-  transform:translateX(100%); transition:transform .35s cubic-bezier(.22,1,.36,1);
-  box-shadow:-20px 0 60px rgba(0,0,0,.12);
-}
-.carrito-panel.open { transform:translateX(0); }
-
-.carrito-header {
-  padding:28px 28px 20px;
-  border-bottom:1px solid rgba(0,0,0,.08);
-  display:flex; justify-content:space-between; align-items:center;
-}
-.carrito-titulo { font-family:var(--serif); font-size:28px; font-weight:300; }
-.carrito-cerrar { background:none; border:none; font-size:22px; cursor:pointer; color:var(--gris); padding:4px; }
-.carrito-cerrar:hover { color:var(--negro); }
-
-.carrito-items { flex:1; overflow-y:auto; padding:20px 28px; }
-.carrito-vacio { text-align:center; padding:60px 20px; }
-.carrito-vacio p { font-family:var(--serif); font-size:22px; font-weight:300; color:var(--gris); margin-bottom:8px; }
-.carrito-vacio span { font-size:11px; letter-spacing:.2em; text-transform:uppercase; color:#bbb; }
-
-.carrito-item {
-  display:flex; gap:16px; align-items:center;
-  padding:16px 0; border-bottom:1px solid rgba(0,0,0,.06);
-}
-.carrito-item:last-child { border-bottom:none; }
-.carrito-item img { width:72px; height:88px; object-fit:cover; border-radius:10px; flex-shrink:0; }
-.carrito-item-info { flex:1; }
-.carrito-item-nombre { font-family:var(--serif); font-size:18px; margin-bottom:4px; }
-.carrito-item-talla { font-size:11px; letter-spacing:.15em; text-transform:uppercase; color:var(--gris); margin-bottom:6px; }
-.carrito-item-precio { font-size:14px; font-weight:600; }
-.carrito-item-actions { display:flex; align-items:center; gap:8px; margin-top:8px; }
-.qty-btn { width:26px; height:26px; border:1px solid rgba(0,0,0,.15); border-radius:50%; background:white; cursor:pointer; font-size:14px; display:flex; align-items:center; justify-content:center; transition:.2s; }
-.qty-btn:hover { background:var(--negro); color:white; border-color:var(--negro); }
-.qty-num { font-size:14px; min-width:20px; text-align:center; }
-.btn-eliminar { background:none; border:none; color:var(--gris); cursor:pointer; font-size:12px; letter-spacing:.1em; text-transform:uppercase; margin-left:8px; transition:.2s; }
-.btn-eliminar:hover { color:var(--rojo); }
-
-.carrito-footer {
-  padding:20px 28px 28px;
-  border-top:1px solid rgba(0,0,0,.08);
-}
-.carrito-total-row { display:flex; justify-content:space-between; align-items:center; margin-bottom:20px; }
-.carrito-total-label { font-size:11px; letter-spacing:.2em; text-transform:uppercase; color:var(--gris); }
-.carrito-total-num { font-family:var(--serif); font-size:28px; font-weight:300; }
-
-.btn-whatsapp {
-  width:100%; padding:18px; background:#25D366; color:white;
-  border:none; border-radius:50px; font-family:var(--sans);
-  font-size:12px; letter-spacing:.2em; text-transform:uppercase;
-  cursor:pointer; transition:.3s; display:flex; align-items:center; justify-content:center; gap:10px;
-}
-.btn-whatsapp:hover { background:#1fb855; transform:translateY(-2px); }
-.btn-vaciar { width:100%; margin-top:10px; padding:12px; background:transparent; color:var(--gris); border:1px solid rgba(0,0,0,.12); border-radius:50px; font-family:var(--sans); font-size:10px; letter-spacing:.2em; text-transform:uppercase; cursor:pointer; transition:.2s; }
-.btn-vaciar:hover { border-color:var(--rojo); color:var(--rojo); }
-
 /* TOAST */
 .toast { position:fixed; bottom:30px; left:50%; transform:translateX(-50%) translateY(20px); background:var(--negro); color:white; padding:14px 28px; border-radius:50px; font-size:12px; letter-spacing:.15em; text-transform:uppercase; opacity:0; transition:.3s; z-index:600; white-space:nowrap; }
 .toast.show { opacity:1; transform:translateX(-50%) translateY(0); }
@@ -266,10 +184,6 @@ body { background: linear-gradient(180deg,#f4f2ed 0%,#ece8e1 100%); padding:60px
   <div class="logo">HYT ESSENCE</div>
   <div class="header-right">
     <a href="index.html" class="volver">← Volver</a>
-    <button class="carrito-fab" onclick="abrirCarrito()" id="carrito-fab">
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
-      <span class="carrito-count" id="carrito-count"></span>
-    </button>
     <div class="hamburger dark" onclick="abrirMenu()"><span></span><span></span><span></span></div>
   </div>
 </div>
@@ -284,27 +198,6 @@ body { background: linear-gradient(180deg,#f4f2ed 0%,#ece8e1 100%); padding:60px
 </div>
 <div id="contenido">
   <div class="loading">Cargando productos</div>
-</div>
-
-<!-- PANEL CARRITO -->
-<div class="carrito-overlay" id="carrito-overlay" onclick="cerrarCarrito()"></div>
-<div class="carrito-panel" id="carrito-panel">
-  <div class="carrito-header">
-    <span class="carrito-titulo">Tu carrito</span>
-    <button class="carrito-cerrar" onclick="cerrarCarrito()">✕</button>
-  </div>
-  <div class="carrito-items" id="carrito-items"></div>
-  <div class="carrito-footer" id="carrito-footer" style="display:none">
-    <div class="carrito-total-row">
-      <span class="carrito-total-label">Total</span>
-      <span class="carrito-total-num" id="carrito-total">$0 MXN</span>
-    </div>
-    <button class="btn-whatsapp" onclick="pedirWhatsApp()">
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-      Pedir por WhatsApp
-    </button>
-    <button class="btn-vaciar" onclick="vaciarCarrito()">Vaciar carrito</button>
-  </div>
 </div>
 
 <div class="toast" id="toast"></div>
@@ -336,14 +229,8 @@ let carrito = JSON.parse(localStorage.getItem('hyt_carrito') || '[]');
 
 function guardarCarrito() {
   localStorage.setItem('hyt_carrito', JSON.stringify(carrito));
-  actualizarContador();
-}
-
-function actualizarContador() {
-  const total = carrito.reduce((s, i) => s + i.cantidad, 0);
-  const el = document.getElementById('carrito-count');
-  el.textContent = total > 0 ? total : '';
-  el.classList.toggle('visible', total > 0);
+  // Actualizar badge del menú si está disponible
+  if (typeof menuActualizarBadge === 'function') menuActualizarBadge();
 }
 
 function agregarAlCarrito(id, nombre, precio, talla, imagen) {
@@ -379,108 +266,6 @@ async function cambiarCantidad(key, delta) {
   if (item.cantidad <= 0) carrito = carrito.filter(i => i.key !== key);
   guardarCarrito();
   renderCarrito();
-}
-
-function eliminarItem(key) {
-  carrito = carrito.filter(i => i.key !== key);
-  guardarCarrito();
-  renderCarrito();
-}
-
-function vaciarCarrito() {
-  carrito = [];
-  guardarCarrito();
-  renderCarrito();
-}
-
-function renderCarrito() {
-  const container = document.getElementById('carrito-items');
-  const footer = document.getElementById('carrito-footer');
-
-  if (carrito.length === 0) {
-    container.innerHTML = `
-      <div class="carrito-vacio">
-        <p>Tu carrito está vacío</p>
-        <span>Agrega productos para comenzar</span>
-      </div>`;
-    footer.style.display = 'none';
-    return;
-  }
-
-  const total = carrito.reduce((s, i) => s + i.precio * i.cantidad, 0);
-  container.innerHTML = carrito.map(item => `
-    <div class="carrito-item">
-      <img src="${item.imagen}" alt="${item.nombre}">
-      <div class="carrito-item-info">
-        <div class="carrito-item-nombre">${item.nombre}</div>
-        <div class="carrito-item-talla">Talla: ${item.talla}</div>
-        <div class="carrito-item-precio">$${(item.precio * item.cantidad).toFixed(0)} MXN</div>
-        <div class="carrito-item-actions">
-          <button class="qty-btn" onclick="cambiarCantidad('${item.key}', -1)">−</button>
-          <span class="qty-num">${item.cantidad}</span>
-          <button class="qty-btn" onclick="cambiarCantidad('${item.key}', 1)">+</button>
-          <button class="btn-eliminar" onclick="eliminarItem('${item.key}')">Quitar</button>
-        </div>
-      </div>
-    </div>`).join('');
-
-  document.getElementById('carrito-total').textContent = `$${total.toFixed(0)} MXN`;
-  footer.style.display = 'block';
-}
-
-function abrirCarrito() {
-  renderCarrito();
-  document.getElementById('carrito-overlay').classList.add('open');
-  document.getElementById('carrito-panel').classList.add('open');
-}
-
-function cerrarCarrito() {
-  document.getElementById('carrito-overlay').classList.remove('open');
-  document.getElementById('carrito-panel').classList.remove('open');
-}
-
-async function pedirWhatsApp() {
-  if (carrito.length === 0) return;
-
-  // Verificar sesión — redirigir a login si no hay
-  const { data: { session } } = await db.auth.getSession();
-  if (!session) {
-    // Guardar carrito antes de redirigir
-    localStorage.setItem('hyt_carrito', JSON.stringify(carrito));
-    cerrarCarrito();
-    mostrarToast('Inicia sesión para continuar');
-    setTimeout(() => {
-      window.location.href = 'login.html?redirect=coleccion.html';
-    }, 1200);
-    return;
-  }
-
-  const nombre = session.user.user_metadata?.nombre || session.user.email.split('@')[0];
-  const total = carrito.reduce((s, i) => s + i.precio * i.cantidad, 0);
-  const lineas = carrito.map(i =>
-    `• ${i.nombre} (Talla ${i.talla}) x${i.cantidad} — $${(i.precio * i.cantidad).toFixed(0)} MXN`
-  ).join('\n');
-  const mensaje = `Hola, soy *${nombre}* y me interesan los siguientes productos de HYT ESSENCE:\n\n${lineas}\n\n*Total: $${total.toFixed(0)} MXN*\n\n¿Me pueden ayudar con el pedido?`;
-  window.open(`https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(mensaje)}`, '_blank');
-
-  // Guardar pedido en Supabase
-  await db.from('pedidos').insert({
-    usuario_id: session.user.id,
-    items: carrito.map(i => ({ nombre: i.nombre, talla: i.talla, cantidad: i.cantidad, precio: i.precio })),
-    total
-  });
-
-  // Descontar stock en Supabase
-  for (const item of carrito) {
-    const prod = todosProductos.find(p => p.id == item.id);
-    if (prod) {
-      const nuevoStock = Math.max(0, (prod.stock || 0) - item.cantidad);
-      await db.from('productos').update({ stock: nuevoStock }).eq('id', item.id);
-    }
-  }
-  vaciarCarrito();
-  cerrarCarrito();
-  await cargarProductos();
 }
 
 function mostrarToast(msg) {
@@ -519,9 +304,9 @@ function renderProductos(productos) {
     const stockTexto = stock === 0 ? 'Sin stock' : stock <= 3 ? `Últimas ${stock}` : `${stock} disponibles`;
     const agotado = !p.disponible || stock === 0;
     return `<tr>
-      <td><img src="${p.imagen_url}" alt="${p.nombre}" onerror="this.src=''"></td>
+      <td><img src="${p.imagen_url}" alt="${p.nombre}" onerror="this.src=''" onclick="window.location.href='detalle.html?id=${p.id}'" style="cursor:pointer" title="Ver detalle"></td>
       <td>
-        <div class="modelo">${p.nombre}</div>
+        <div class="modelo" onclick="window.location.href='detalle.html?id=${p.id}'" style="cursor:pointer" title="Ver detalle">${p.nombre}</div>
         ${p.descripcion ? `<div class="descripcion-cell">${p.descripcion}</div>` : ''}
       </td>
       <td><div class="talla-select" id="tallas-${p.id}">${tallasHTML}</div></td>
@@ -592,7 +377,6 @@ async function agregarDesdeTabla(id, nombre, precio, imagen) {
 }
 
 cargarProductos();
-actualizarContador();
 </script>
 <div id="hyt-menu-root"></div>
 <script src="menu.js" defer></script>

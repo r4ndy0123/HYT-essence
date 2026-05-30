@@ -43,7 +43,7 @@ body{background:linear-gradient(180deg,#f4f2ed 0%,#ece8e1 100%);min-height:100vh
   padding:10px 0;border-bottom:1px solid rgba(0,0,0,.05);
 }
 .pedido-item:last-child{border-bottom:none;}
-.pedido-item[style*="cursor:pointer"]:hover{background:#fafaf8;border-radius:10px;margin:0 -8px;padding:10px 8px;}
+.pedido-item[style*="cursor:pointer"]:hover{background:#fafaf8;border-radius:10px;margin:0 -8px;padding:10px 8px;transition:background .2s;}
 .pedido-item-img{width:56px;height:68px;object-fit:cover;border-radius:8px;flex-shrink:0;margin-right:14px;}
 .pedido-item-img-placeholder{width:56px;height:68px;border-radius:8px;background:#f0ede8;flex-shrink:0;margin-right:14px;}
 .pedido-item-nombre{font-family:var(--serif);font-size:18px;}
@@ -117,13 +117,14 @@ async function cargarHistorial() {
       day: 'numeric', month: 'long', year: 'numeric', hour: '2-digit', minute: '2-digit'
     });
     const itemsHTML = p.items.map(i => `
-      <div class="pedido-item">
-        ${i.imagen ? `<img src="${i.imagen}" class="pedido-item-img" alt="${i.nombre}" onclick="window.location.href='detalle.html?id=${i.id || ''}'" style="cursor:pointer">` : ''}
+      <div class="pedido-item" onclick="window.location.href='detalle.html?id=${i.id || ''}'" style="${i.id ? 'cursor:pointer' : ''}">
+        ${i.imagen ? `<img src="${i.imagen}" class="pedido-item-img" alt="${i.nombre}">` : '<div class="pedido-item-img-placeholder"></div>'}
         <div style="flex:1">
           <div class="pedido-item-nombre">${i.nombre}</div>
           <div class="pedido-item-detalle">Talla ${i.talla} · x${i.cantidad}</div>
         </div>
         <div class="pedido-item-precio">$${(i.precio * i.cantidad).toFixed(0)} MXN</div>
+        ${i.id ? '<div style="font-size:10px;letter-spacing:.15em;text-transform:uppercase;color:#bbb;margin-left:8px;">Ver →</div>' : ''}
       </div>`).join('');
     return `
       <div class="pedido-card">

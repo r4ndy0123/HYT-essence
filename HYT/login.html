@@ -247,7 +247,7 @@ async function enviarReset() {
   if (!email) { mostrarMsg('forgot-error','Ingresa tu correo'); return; }
   setLoading('btn-forgot', true, 'Enviar enlace de recuperación');
   const { error } = await db.auth.resetPasswordForEmail(email, {
-    redirectTo: window.location.origin + 'HYT-essence/HYT/reset.html'
+    redirectTo: 'https://r4ndy0123.github.io/HYT-essence/HYT/reset.html'
   });
   setLoading('btn-forgot', false, 'Enviar enlace de recuperación');
   if (error) { mostrarMsg('forgot-error', error.message); return; }
@@ -257,7 +257,7 @@ async function enviarReset() {
 async function loginGoogle() {
   await db.auth.signInWithOAuth({
     provider: 'google',
-    options: { redirectTo: window.location.origin + '/HYT/index.html' }
+    options: { redirectTo: 'https://r4ndy0123.github.io/HYT-essence/HYT/index.html' }
   });
 }
 
